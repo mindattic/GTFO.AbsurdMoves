@@ -26,6 +26,7 @@ public class Plugin : BasePlugin
         Slide.Bind(Config);
         FireMidAir.Bind(Config);
         FireWhileRunning.Bind(Config);
+        RunAndStamina.Bind(Config);
         GroundPound.Bind(Config);
 
         ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();
