@@ -1,13 +1,16 @@
 using BepInEx.Configuration;
+using HarmonyLib;
 using Player;
 using UnityEngine;
 
 namespace GTFO.AbsurdMoves;
 
 /// <summary>
-/// Crouch while sprinting to slide: you keep going the way you were running, slowing to a stop,
-/// while the camera stays free to aim anywhere. Moves through the game's own character controller
-/// with a wall-stopping SphereCast each step, like the dodge.
+/// Crouch while sprinting to slide: you carry on the way you were running, holding most of your
+/// speed before easing to a stop, while the camera and gun stay free - slide past a doorway, turn
+/// and shoot into it, and you keep sliding the same way. Movement keys are ignored for the slide
+/// so looking or strafing never steers it. Moves through the game's own character controller with
+/// a wall-stopping SphereCast each step, like the dodge.
 /// </summary>
 internal static class Slide
 {
@@ -19,10 +22,13 @@ internal static class Slide
     {
         const string s = "Slide";
         Enabled = config.Bind(s, "Slide Enabled", true,
-            "Turns the slide on or off. On: crouch while sprinting to slide on in the direction you were running, " +
-            "slowing to a stop, while you aim freely. Standing up, jumping or hitting a wall ends it.");
+            "Turns the slide on or off. On: crouch while sprinting to slide on in the direction you were running - " +
+            "holding your speed, then easing to a stop - while you look and shoot anywhere. Standing up, jumping or " +
+            "hitting a wall ends it.");
         Speed = config.Bind(s, "Slide Start Speed (m/s)", 9f, "Speed the slide starts at (more if you were already running faster).");
-        Seconds = config.Bind(s, "Slide Duration (seconds)", 0.9f, "How long a slide takes to slow to a stop.");
+        Seconds = config.Bind(s, "Slide Duration (seconds)", 1.2f,
+            "How long a slide lasts. Speed holds near the start speed early on and drops off toward the end; " +
+            "a slide covers about two thirds of start speed x duration (7 m at the defaults).");
     }
 
     private const float WallProbeRadius = 0.3f;
@@ -33,6 +39,8 @@ internal static class Slide
     private static Vector3 _direction;
     private static float _startSpeed;
     private static float _startedAt;
+
+    internal static bool Active => _sliding;
 
     internal static void Tick(PlayerAgent agent, PlayerLocomotion loc)
     {
@@ -59,12 +67,25 @@ internal static class Slide
             return;
         }
 
-        var step = _startSpeed * (1f - t) * Time.deltaTime;
+        // 1 - t^2: barely slows at first, then brakes into the stop.
+        var step = _startSpeed * (1f - t * t) * Time.deltaTime;
         var from = agent.Position + Vector3.up * 0.5f;
         var blocked = Physics.SphereCast(from, WallProbeRadius, _direction, out var wall, step + WallSkin, LayerManager.MASK_WORLD);
         if (blocked) step = Mathf.Max(0f, wall.distance - WallSkin);
 
         agent.PlayerCharacterController?.Move(_direction * step);
         if (blocked) _sliding = false;
+    }
+
+    // While sliding, the game's own crouch movement sees no movement keys, so it adds nothing on
+    // top of the slide and turning to aim (or strafing) can't steer it.
+    [HarmonyPatch(typeof(PlayerLocomotion), nameof(PlayerLocomotion.GetInputMoveVector))]
+    private static class IgnoreMoveKeys
+    {
+        [HarmonyPostfix]
+        private static void Postfix(PlayerLocomotion __instance, ref Vector3 __result)
+        {
+            if (_sliding && __instance.LocallyOwned) __result = Vector3.zero;
+        }
     }
 }
