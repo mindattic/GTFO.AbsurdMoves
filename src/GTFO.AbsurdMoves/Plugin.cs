@@ -23,6 +23,7 @@ public class Plugin : BasePlugin
         Dodge.Bind(Config);
         BulletTime.Bind(Config);
         AirMoves.Bind(Config);
+        Slide.Bind(Config);
         GroundPound.Bind(Config);
 
         ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();

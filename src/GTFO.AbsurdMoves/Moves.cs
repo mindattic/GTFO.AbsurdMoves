@@ -48,6 +48,7 @@ internal static class Moves
 
             GroundPound.Tick(agent, __instance);
             AirMoves.Tick(agent, __instance);
+            Slide.Tick(agent, __instance);
         }
         catch (Exception e)
         {
