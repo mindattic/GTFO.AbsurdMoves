@@ -1,0 +1,9 @@
+{
+  "name": "GtfoAbsurdMoves",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/mindattic/GTFO.AbsurdMoves",
+  "description": "New movement for GTFO. Dodge: hold Shift and double-tap W/A/S/D to dart that way. Toggle and tune it in the config.",
+  "dependencies": [
+    "BepInEx-BepInExPack_GTFO-3.2.3"
+  ]
+}
