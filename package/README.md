@@ -18,6 +18,7 @@ BepInEx creates on first launch: `BepInEx\config\MindAttic.GTFO.AbsurdMoves.cfg`
 | [Double jump](#double-jump-and-glide) | In the air away from a wall, press **Jump** again | `[Double Jump] Double Jump Enabled` |
 | [Glide](#double-jump-and-glide) | Keep holding **Jump** after a double jump | `[Double Jump] Glide Enabled` |
 | [Ground pound](#ground-pound) | In the air, high enough up, press **Crouch** | `[Ground Pound] Ground Pound Enabled` |
+| [Mantling](#mantling) | Jump at a ledge no higher than your eyes, holding **forward** | `[Mantling] Mantling Enabled` |
 | [Slide](#slide) | Press **Crouch** while sprinting | `[Slide] Slide Enabled` |
 | [Dodge](#dodge) | Hold **Shift** and double-tap **W/A/S/D** | `[Dodge] Dodge Enabled` |
 | [Bullet time](#bullet-time) | Tap **Left Alt** | `[Bullet Time] Enabled` |
@@ -90,6 +91,21 @@ the host shoves the enemies, so it works for the whole team. Needs the GTFO-API 
 | `Shockwave Stagger` | 3 | Stagger multiplier of that hit. |
 | `Debris Count` | 10 | Dust-and-scorch bursts scattered around the landing. |
 | `Impact Sound` | `STINGER_LOW_BOOM` | Played on landing. Empty = silent. |
+
+## Mantling
+
+Jump at a ledge while holding forward. If its top is no higher than your eyes and there's room to
+stand up there, you're pulled up the face and over onto it. Your gun drops out of the way for the
+pull-up, like a vault. Anything below knee height is left to the game's own step-up.
+
+### `[Mantling]`
+
+| Setting | Default | What it does |
+|---|---|---|
+| `Mantling Enabled` | true | Turns mantling on or off. |
+| `Mantle Duration (seconds)` | 0.35 | How long the pull-up takes. |
+| `Ledge Reach (meters)` | 0.8 | How close the ledge's face must be in front of you. |
+| `Eye Level Margin (meters)` | 0.1 | How far above eye level a ledge top can still be grabbed. |
 
 ## Slide
 
@@ -181,7 +197,7 @@ game's player data as it loads, so changes take effect on restart.
 - **GTFO.EZ** used to have the dodge (as its dash), and **GTFO.AbsurdWeapons** used to have bullet
   time. Both moved here. Running an older build of either alongside this mod gives you two of the
   same move: switch one of them off in its config.
-- Wall running, double jump, glide, ground pound, slide and fire on the move were worked out from the
+- Wall running, double jump, glide, ground pound, mantling, slide and fire on the move were worked out from the
   game's own movement and weapon code but haven't been confirmed in play yet. If one misbehaves,
   switch it off and the rest keep working.
 
@@ -203,6 +219,7 @@ src/GTFO.AbsurdMoves/
   Moves.cs             Per-frame driver for the local player's movement, and shared helpers
   AirMoves.cs          Wall running, double jump, glide
   GroundPound.cs       Ground pound and its shockwave (host-side enemy pushes)
+  Mantle.cs            Pull-up onto ledges no higher than eye level
   Slide.cs             Crouch-while-sprinting slide
   Dodge.cs             Shift + double-tap W/A/S/D dodge
   BulletTime.cs        Left Alt: slows every enemy (animator + navmesh speed) with a muffled Wwise mix

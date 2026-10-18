@@ -28,6 +28,7 @@ public class Plugin : BasePlugin
         FireWhileRunning.Bind(Config);
         RunAndStamina.Bind(Config);
         GroundPound.Bind(Config);
+        Mantle.Bind(Config);
 
         ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();
         ClassInjector.RegisterTypeInIl2Cpp<BulletTime>();

@@ -50,7 +50,8 @@ internal static class Moves
             if (GameStateManager.CurrentStateName != eGameStateName.InLevel) return;
 
             GroundPound.Tick(agent, __instance);
-            AirMoves.Tick(agent, __instance);
+            Mantle.Tick(agent, __instance);
+            if (!Mantle.Active) AirMoves.Tick(agent, __instance);
             Slide.Tick(agent, __instance);
         }
         catch (Exception e)
