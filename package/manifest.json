@@ -2,7 +2,7 @@
   "name": "GtfoAbsurdMoves",
   "version_number": "1.0.0",
   "website_url": "https://github.com/mindattic/GTFO.AbsurdMoves",
-  "description": "New moves for GTFO. Dodge: Shift + double-tap W/A/S/D. Bullet Time: Left Alt slows every enemy. Each can be toggled and tuned in the config.",
+  "description": "Wall running, double jump + glide, ground pound shockwave, sprint slide, Shift+WASD dodge, Alt bullet time, fire mid-air and while sprinting, faster sprint, more stamina. Every move toggles on/off and is tunable in the config. Needs GTFO-API.",
   "dependencies": [
     "BepInEx-BepInExPack_GTFO-3.2.3"
   ]
