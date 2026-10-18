@@ -25,6 +25,7 @@ public class Plugin : BasePlugin
         AirMoves.Bind(Config);
         Slide.Bind(Config);
         FireMidAir.Bind(Config);
+        FireWhileRunning.Bind(Config);
         GroundPound.Bind(Config);
 
         ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();
