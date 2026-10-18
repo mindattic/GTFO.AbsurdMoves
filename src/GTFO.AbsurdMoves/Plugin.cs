@@ -22,6 +22,7 @@ public class Plugin : BasePlugin
         Logger = Log;
         Dodge.Bind(Config);
         BulletTime.Bind(Config);
+        AirMoves.Bind(Config);
         GroundPound.Bind(Config);
 
         ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();

@@ -24,7 +24,7 @@ _Nothing recorded yet._
 | GAM-T1 | 2026-10-18 | docs | closed | Start the permanent ticket log in the workflow database | — |
 | GAM-T2 | 2026-10-18 | feature | closed | Dodge (Shift + double-tap W/A/S/D) moved here from GTFO.EZ, with a Dodge Enabled on/off toggle in the .cfg | Release build clean (0 warnings) |
 | GAM-T3 | 2026-10-18 | feature | closed | Bullet Time (tap Left Alt: enemies slow to a crawl, muffled sound) moved here from GTFO.AbsurdWeapons, keeping its Enabled toggle in the .cfg | Release build clean (0 warnings) |
-| GAM-T4 | 2026-10-18 | feature | open | Wall running and double jump: second Space mid-air near a wall runs along it, otherwise double-jumps (hold Space to glide); continuous burn loop sound; WallRunning and DoubleJump toggles in the .cfg | — |
+| GAM-T4 | 2026-10-18 | feature | closed | Wall running and double jump: second Space mid-air near a wall runs along it, otherwise double-jumps (hold Space to glide); continuous burn loop sound; WallRunning and DoubleJump toggles in the .cfg | Release build clean (0 warnings); not yet confirmed in play |
 | GAM-T5 | 2026-10-18 | feature | open | Fire while jumping or mid-air, with an on/off toggle in the .cfg | — |
 | GAM-T6 | 2026-10-18 | feature | open | Fire while running (sprinting), with an on/off toggle in the .cfg | — |
 | GAM-T7 | 2026-10-18 | feature | open | Slide: crouch while sprinting to slide on in that direction while aiming freely, with an on/off toggle in the .cfg | — |

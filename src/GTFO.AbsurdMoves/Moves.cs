@@ -47,6 +47,7 @@ internal static class Moves
             if (GameStateManager.CurrentStateName != eGameStateName.InLevel) return;
 
             GroundPound.Tick(agent, __instance);
+            AirMoves.Tick(agent, __instance);
         }
         catch (Exception e)
         {
