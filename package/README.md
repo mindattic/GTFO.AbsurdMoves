@@ -24,6 +24,27 @@ any other movement.
 | `Dodge Cooldown (seconds)` | 1.5 | Wait before another dodge can start. |
 | `Dodge Double-Tap Window (seconds)` | 0.5 | How quickly the second tap must follow the first. |
 
+## Bullet Time
+
+Tap **Left Alt** and every enemy slows to a crawl while you keep full speed, Max Payne style. The
+sound drops to a hollow, muffled mix, with a deep boom going in and a heartbeat underneath. It's
+broadcast, so the host slows the enemies for the whole team. Needs the GTFO-API plugin.
+
+### `[Bullet Time]`
+
+| Setting | Default | What it does |
+|---|---|---|
+| `Enabled` | true | Turns bullet time on or off. |
+| `Key` | LeftAlt | Starts bullet time. Presses while it's running or cooling down do nothing. |
+| `DurationSeconds` | 5 | How long it lasts. |
+| `CooldownSeconds` | 10 | Wait after it ends before it can start again. |
+| `EnemySpeed` | 0.25 | Enemy speed during bullet time (1 = normal). |
+| `SoundMuffle` | `SOUND_EFFECT_MUFFLE=100, GAME_MENU_MUFFLE=100` | Wwise mix parameters pushed for the hollow sound, restored after. |
+| `EnterSound` / `ExitSound` | `STINGER_LOW_BOOM` / `COMBAT_FADING_PULSE_LEVEL_1` | Played going in and coming out. |
+| `LoopSound` / `LoopStopSound` | `ENEMYHEARTBEATLOOP` / `ENEMYHEARTBEATLOOPEND` | The heartbeat under it. |
+
+Any [Unity `KeyCode`](https://docs.unity3d.com/ScriptReference/KeyCode.html) name works for `Key`.
+
 ## Building
 
 ```powershell
@@ -38,7 +59,9 @@ the build references).
 
 ```
 src/GTFO.AbsurdMoves/
-  Plugin.cs   BepInEx entry point: binds each move's config, applies Harmony patches
-  Dodge.cs    Shift + double-tap W/A/S/D dodge
+  Plugin.cs      BepInEx entry point: binds each move's config, applies Harmony patches
+  Dodge.cs       Shift + double-tap W/A/S/D dodge
+  BulletTime.cs  Left Alt: slows every enemy (animator + navmesh speed) with a muffled Wwise mix
+  Sounds.cs      One-shot and looping Wwise sound helpers
 package/      Thunderstore manifest, README and changelog
 ```

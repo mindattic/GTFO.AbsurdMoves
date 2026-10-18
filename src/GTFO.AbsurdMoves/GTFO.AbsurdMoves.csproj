@@ -41,4 +41,9 @@
     <Reference Remove="$(BepInEx)\interop\netstandard.dll" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- GTFO-API: Bullet Time broadcasts its trigger so the host slows enemies for everyone. -->
+    <Reference Include="$(BepInEx)\plugins\GTFO-API.dll" Private="false" />
+  </ItemGroup>
+
 </Project>

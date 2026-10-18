@@ -2,11 +2,13 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using Il2CppInterop.Runtime.Injection;
 
 namespace GTFO.AbsurdMoves;
 
 [BepInPlugin(GUID, NAME, VERSION)]
 [BepInProcess("GTFO.exe")]
+[BepInDependency("dev.gtfomodding.gtfo-api")]
 public class Plugin : BasePlugin
 {
     public const string GUID = "MindAttic.GTFO.AbsurdMoves";
@@ -19,8 +21,15 @@ public class Plugin : BasePlugin
     {
         Logger = Log;
         Dodge.Bind(Config);
+        BulletTime.Bind(Config);
+
+        ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();
+        ClassInjector.RegisterTypeInIl2Cpp<BulletTime>();
+        BulletTime.Init();
 
         new Harmony(GUID).PatchAll();
+        AddComponent<LoopSounds>();
+        AddComponent<BulletTime>();
 
         Logger.LogInfo($"{NAME} v{VERSION} loaded.");
     }

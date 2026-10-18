@@ -23,4 +23,4 @@ _Nothing recorded yet._
 |---|---|---|---|---|---|
 | GAM-T1 | 2026-10-18 | docs | closed | Start the permanent ticket log in the workflow database | — |
 | GAM-T2 | 2026-10-18 | feature | closed | Dodge (Shift + double-tap W/A/S/D) moved here from GTFO.EZ, with a Dodge Enabled on/off toggle in the .cfg | Release build clean (0 warnings) |
-| GAM-T3 | 2026-10-18 | feature | open | Bullet Time (tap Left Alt: enemies slow to a crawl, muffled sound) moved here from GTFO.AbsurdWeapons, keeping its Enabled toggle in the .cfg | — |
+| GAM-T3 | 2026-10-18 | feature | closed | Bullet Time (tap Left Alt: enemies slow to a crawl, muffled sound) moved here from GTFO.AbsurdWeapons, keeping its Enabled toggle in the .cfg | Release build clean (0 warnings) |
