@@ -24,6 +24,7 @@ BepInEx creates on first launch: `BepInEx\config\MindAttic.GTFO.AbsurdMoves.cfg`
 | [Slide](#slide) | Press **Crouch** while sprinting | `[Slide] Slide Enabled` |
 | [Dodge](#dodge) | Hold **Shift** and double-tap **W/A/S/D** | `[Dodge] Dodge Enabled` |
 | [Bullet time](#bullet-time) | Tap **Left Alt** | `[Bullet Time] Enabled` |
+| [Infinite ammo / health](#infinite-ammo-and-health) | Press **Insert** / **Delete** | Toggles, off at the start |
 | [Fire mid-air](#fire-on-the-move) | Shoot while jumping or falling | `[Fire On The Move] Fire Mid-Air Enabled` |
 | [Fire while running](#fire-on-the-move) | Shoot while sprinting | `[Fire On The Move] Fire While Running Enabled` |
 | [Faster sprint](#run-speed-and-stamina) | Always on | `[Run Speed] Run Speed Enabled` |
@@ -194,6 +195,14 @@ game's player data as it loads, so changes take effect on restart.
 | `Stamina Enabled` | true | Turns the extra stamina on or off. |
 | `Stamina Multiplier` | 1.5 | Divides stamina costs and multiplies stamina regen. |
 
+## Infinite ammo and health
+
+**Insert** toggles infinite ammo (every gun and tool stays full, no reloads) and **Delete** infinite
+health (no damage to you; bots and teammates are unaffected), each announced as a warden message.
+Both start off. They're the same two keys every GTFO.* mod has, from one shared copy of the code
+written in GTFO.EZ; with several of the mods installed, only one answers, so a press never toggles
+twice.
+
 ## Compatibility
 
 - **GTFO.EZ** used to have the dodge (as its dash), and **GTFO.AbsurdWeapons** used to have bullet
@@ -229,6 +238,8 @@ src/GTFO.AbsurdMoves/
   FireWhileRunning.cs  Lets your guns fire while sprinting
   RunAndStamina.cs     Sprint speed and stamina multipliers on the player datablock
   Sounds.cs            One-shot and looping Wwise sound helpers
+  Shared/              generated from GTFO.EZ's src/GTFO.EZ/Shared by its tools/publish-shared.ps1 -
+                       never edit here: the Insert/Delete infinite ammo/health toggles
 package/               Thunderstore manifest, icon (256x256, from logo.png), README and changelog
 logo.png               Full-size logo
 ```

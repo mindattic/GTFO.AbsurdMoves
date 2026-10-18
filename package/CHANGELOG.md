@@ -2,6 +2,8 @@
 
 ## v1
 
+- **Insert** (infinite ammo) and **Delete** (infinite health) toggles, announced as warden
+  messages - the shared keys every GTFO.* mod has, so they never clash with several installed.
 - Initial release. Every move has its own on/off switch in the config.
 - **Wall running**: in the air next to a wall, press Jump again to run along it; Jump again kicks off.
 - **Double jump** and **glide**: press Jump again in the air to jump again; keep holding it to glide down.
