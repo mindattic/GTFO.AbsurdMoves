@@ -22,14 +22,18 @@ public class Plugin : BasePlugin
         Logger = Log;
         Dodge.Bind(Config);
         BulletTime.Bind(Config);
+        GroundPound.Bind(Config);
 
         ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();
         ClassInjector.RegisterTypeInIl2Cpp<BulletTime>();
+        ClassInjector.RegisterTypeInIl2Cpp<PoundPushes>();
         BulletTime.Init();
+        GroundPound.Init();
 
         new Harmony(GUID).PatchAll();
         AddComponent<LoopSounds>();
         AddComponent<BulletTime>();
+        AddComponent<PoundPushes>();
 
         Logger.LogInfo($"{NAME} v{VERSION} loaded.");
     }
