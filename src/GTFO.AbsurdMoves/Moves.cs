@@ -36,6 +36,9 @@ internal static class Moves
         if (fall != null && fall.m_maxHorizontalVelocity < speed) fall.m_maxHorizontalVelocity = speed;
     }
 
+    // The held gun's own jump bob, as a normal jump plays it.
+    internal static void JumpSway(PlayerAgent agent) => agent.FPItemHolder?.PlayJumpAnimation();
+
     [HarmonyPostfix]
     private static void Postfix(PlayerLocomotion __instance)
     {

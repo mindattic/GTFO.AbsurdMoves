@@ -93,8 +93,10 @@ the host shoves the enemies, so it works for the whole team. Needs the GTFO-API 
 
 ## Slide
 
-Crouch while sprinting to slide on in the direction you were running, slowing to a stop. The camera
-stays free, so you can aim anywhere while you slide. Standing up, jumping or hitting a wall ends it.
+Crouch while sprinting to slide on in the direction you were running. The slide holds most of your
+speed at first, then brakes into a stop, covering about 7 m at the defaults. Movement keys are
+ignored while you slide and the camera stays free. You can slide past an open doorway, turn and shoot
+into it, and keep sliding the same way. Standing up, jumping or hitting a wall ends it.
 
 ### `[Slide]`
 
@@ -102,7 +104,7 @@ stays free, so you can aim anywhere while you slide. Standing up, jumping or hit
 |---|---|---|
 | `Slide Enabled` | true | Turns the slide on or off. |
 | `Slide Start Speed (m/s)` | 9 | Speed the slide starts at (more if you were already faster). |
-| `Slide Duration (seconds)` | 0.9 | How long it takes to slow to a stop. |
+| `Slide Duration (seconds)` | 1.2 | How long a slide lasts; it covers about two thirds of start speed x duration. |
 
 ## Dodge
 
@@ -145,6 +147,11 @@ Any [Unity `KeyCode`](https://docs.unity3d.com/ScriptReference/KeyCode.html) nam
 Vanilla GTFO ignores the trigger while you're sprinting or in the air. With these on, your guns fire
 while you jump, fall, wall run, glide or sprint, and sprinting carries on while you shoot. Only your
 own guns are affected, not teammates' or bots'.
+
+Shooting mid-sprint brings your gun up out of its lowered sprint pose for as long as you hold the
+trigger, and for a moment after. The shots, tracers and muzzle flash then leave a barrel pointed where
+you're aiming. Teammates already see your gun tracking where you look while you sprint. In the air the
+gun is never lowered in the first place.
 
 ### `[Fire On The Move]`
 

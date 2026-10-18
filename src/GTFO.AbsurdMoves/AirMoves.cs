@@ -132,6 +132,7 @@ internal static class AirMoves
                 _glideArmed = true;
                 loc.m_verticalVelocity = Vector3.up * DoubleJumpSpeed.Value;
                 Moves.ResetFallStart(agent, loc);
+                Moves.JumpSway(agent);
                 return;
             }
         }
@@ -173,6 +174,7 @@ internal static class AirMoves
         loc.m_verticalVelocity = Vector3.up * WallJumpUpSpeed.Value;
         Moves.AllowAirSpeed(loc, push.magnitude);
         Moves.ResetFallStart(agent, loc);
+        Moves.JumpSway(agent);
     }
 
     private static void Burn(PlayerAgent agent) =>

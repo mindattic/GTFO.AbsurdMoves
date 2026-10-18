@@ -1,6 +1,7 @@
 using BepInEx.Configuration;
 using Gear;
 using HarmonyLib;
+using UnityEngine;
 
 namespace GTFO.AbsurdMoves;
 
@@ -36,5 +37,46 @@ internal static class FireWhileRunning
         if (!__state) return;
         var loc = __instance.m_owner?.Locomotion;
         if (loc != null) loc.IsRunning = true;
+    }
+}
+
+// The first-person gun sits in its lowered sprint pose for as long as the item holder's own
+// running flag is set (the run state sets it on entry and clears it on exit). While you're pulling
+// the trigger mid-sprint, and for a moment after, that flag reads false so the gun comes up level
+// and the shots, tracers and muzzle flash leave a barrel pointed where you're aiming. It's set back
+// every frame from the real run state, so stopping or leaving the sprint behaves exactly as vanilla.
+// Teammates' view needs nothing: the sprint's synced state keeps the gun's aim IK on.
+[HarmonyPatch(typeof(FirstPersonItemHolder), nameof(FirstPersonItemHolder.Update))]
+internal static class FireWhileRunningPose
+{
+    private const float RaisedFor = 0.6f;
+    private const float RaiseRate = 6f;
+
+    private static float _lastTrigger = -10f;
+
+    [HarmonyPrefix]
+    private static void Prefix(FirstPersonItemHolder __instance)
+    {
+        try
+        {
+            if (!FireWhileRunning.Enabled.Value) return;
+            var owner = __instance.m_owner;
+            if (owner == null || !owner.IsLocallyOwned || owner.Owner == null || owner.Owner.IsBot) return;
+            var loc = owner.Locomotion;
+            if (loc == null || loc.m_currentStateEnum != Player.PlayerLocomotion.PLOC_State.Run) return;
+
+            var gun = __instance.WieldedItem?.TryCast<BulletWeapon>() != null;
+            if (gun && Moves.InPlay && InputMapper.GetButton.Invoke(InputAction.Fire, eFocusState.FPS)) _lastTrigger = Time.time;
+            var raised = gun && Time.time - _lastTrigger < RaisedFor;
+
+            __instance.IsRunning = !raised;
+            if (!raised) return;
+            __instance.RunInertia = 0f;
+            __instance.m_runWeight = Mathf.MoveTowards(__instance.m_runWeight, 0f, Time.deltaTime * RaiseRate);
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogWarning($"GTFO.AbsurdMoves sprint-fire pose failed: {e.Message}");
+        }
     }
 }
