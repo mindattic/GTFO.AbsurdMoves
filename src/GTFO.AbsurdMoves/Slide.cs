@@ -25,7 +25,7 @@ internal static class Slide
             "Turns the slide on or off. On: crouch while sprinting to slide on in the direction you were running - " +
             "holding your speed, then easing to a stop - while you look and shoot anywhere. Standing up, jumping or " +
             "hitting a wall ends it.");
-        Speed = config.Bind(s, "Slide Start Speed (m/s)", 9f, "Speed the slide starts at (more if you were already running faster).");
+        Speed = config.Bind(s, "Slide Start Speed (m/s)", 9f, "Speed the slide starts at.");
         Seconds = config.Bind(s, "Slide Duration (seconds)", 1.2f,
             "How long a slide lasts. Speed holds near the start speed early on and drops off toward the end; " +
             "a slide covers about two thirds of start speed x duration (7 m at the defaults).");
@@ -42,6 +42,12 @@ internal static class Slide
 
     internal static bool Active => _sliding;
 
+    internal static void Reset()
+    {
+        _sliding = false;
+        _lastState = PlayerLocomotion.PLOC_State.Stand;
+    }
+
     internal static void Tick(PlayerAgent agent, PlayerLocomotion loc)
     {
         var state = loc.m_currentStateEnum;
@@ -55,7 +61,11 @@ internal static class Slide
             var velocity = loc.HorizontalVelocity;
             velocity.y = 0f;
             _direction = velocity.sqrMagnitude > 0.25f ? velocity.normalized : Moves.FlatForward(agent);
-            _startSpeed = Mathf.Max(Speed.Value, velocity.magnitude);
+            _startSpeed = Speed.Value;
+            // The game gave the crouch its own little push as it left the sprint; the slide replaces
+            // it rather than stacking on top (which would move you twice and overshoot).
+            loc.ResetExternalPushForce();
+            loc.m_horizontalVelocity = Vector3.zero;
             _startedAt = Time.time;
             _sliding = true;
         }
@@ -85,7 +95,10 @@ internal static class Slide
         [HarmonyPostfix]
         private static void Postfix(PlayerLocomotion __instance, ref Vector3 __result)
         {
-            if (_sliding && __instance.LocallyOwned) __result = Vector3.zero;
+            // Bots on the host are locally owned too; only the player's own input is dropped.
+            if (!_sliding || !__instance.LocallyOwned) return;
+            var owner = __instance.m_owner;
+            if (owner != null && owner.Owner != null && !owner.Owner.IsBot) __result = Vector3.zero;
         }
     }
 }

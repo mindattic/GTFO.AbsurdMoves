@@ -57,25 +57,64 @@ internal static class GroundPound
     private static float _speed;
 
     internal static bool Active => _pounding;
+
+    // A pound still falling after this long is stuck (an unstandable slope keeps the game in its
+    // fall state): it's dropped rather than pinning you in place.
+    private const float MaxPoundSeconds = 6f;
+
     private static float _graceUntil;
+    private static float _startedAt;
+    // Whether the game itself had fall damage switched off before the pound, so ending the pound
+    // puts it back as it was instead of always switching it back on.
+    private static bool _gameImmunity;
+
+    internal static void Reset(PlayerLocomotion? loc)
+    {
+        if (!_pounding && _graceUntil <= 0f) return;
+        _pounding = false;
+        _graceUntil = 0f;
+        try
+        {
+            if (loc != null && !loc.WasCollected) loc.DisableFallDamageTemporarily = _gameImmunity;
+        }
+        catch (Exception)
+        {
+            // Gone with the level.
+        }
+    }
+
+    // Landing on your feet - not grabbing a ladder, getting downed or grabbed mid-fall.
+    private static bool OnFeet(PlayerLocomotion loc) => loc.m_currentStateEnum is
+        PlayerLocomotion.PLOC_State.Stand or PlayerLocomotion.PLOC_State.Crouch or PlayerLocomotion.PLOC_State.Run or
+        PlayerLocomotion.PLOC_State.Land or PlayerLocomotion.PLOC_State.StandStill;
 
     internal static void Tick(PlayerAgent agent, PlayerLocomotion loc)
     {
         if (!_pounding && _graceUntil > 0f && Time.time > _graceUntil)
         {
             _graceUntil = 0f;
-            loc.DisableFallDamageTemporarily = false;
+            loc.DisableFallDamageTemporarily = _gameImmunity;
         }
 
         if (_pounding)
         {
             if (!Moves.InAir(loc))
             {
+                if (!OnFeet(loc))
+                {
+                    Reset(loc);
+                    return;
+                }
                 _pounding = false;
                 _graceUntil = Time.time + FallDamageGraceSeconds;
                 var at = agent.Position;
                 Land(at, agent);
                 NetworkAPI.InvokeEvent(ImpactEvent, new ImpactMessage(at));
+                return;
+            }
+            if (Time.time - _startedAt > MaxPoundSeconds)
+            {
+                Reset(loc);
                 return;
             }
             // Gravity counts twice while slamming: the fall speed keeps doubling up on vanilla's.
@@ -88,12 +127,14 @@ internal static class GroundPound
             return;
         }
 
-        if (!Enabled.Value || !Moves.InAir(loc) || !Moves.InPlay) return;
+        if (!Enabled.Value || Mantle.Active || !Moves.InAir(loc) || !Moves.InPlay) return;
         if (!InputMapper.GetButtonDown.Invoke(InputAction.Crouch, eFocusState.FPS)) return;
         if (Physics.Raycast(agent.Position + Vector3.up * 0.2f, Vector3.down, MinHeight.Value + 0.2f, LayerManager.MASK_WORLD)) return;
 
         _pounding = true;
+        _startedAt = Time.time;
         _speed = Mathf.Max(MinSpeed.Value, -loc.m_verticalVelocity.y * 2f);
+        _gameImmunity = loc.DisableFallDamageTemporarily;
         loc.DisableFallDamageTemporarily = true;
     }
 
@@ -106,6 +147,7 @@ internal static class GroundPound
         if (!SNet.IsMaster) return;
 
         var radius = Radius.Value;
+        if (radius <= 0f) return; // no shockwave (and no divide by zero below)
         var seen = new HashSet<IntPtr>();
         foreach (var collider in Physics.OverlapSphere(at, radius, LayerManager.MASK_ENEMY_DAMAGABLE))
         {

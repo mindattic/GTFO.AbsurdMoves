@@ -53,12 +53,20 @@ internal static class DodgeHotkey_Update_Patch
 
     private static readonly float[] LastTap = { -10f, -10f, -10f, -10f };
 
+    // The host's bots have a local damage component too, so this runs once per bot as well: only
+    // the first call each frame counts, or one tap would read as a double-tap and the dodge would
+    // step several times a frame.
+    private static int _lastFrame = -1;
+
     private static bool InPlay => FocusStateManager.CurrentState == eFocusState.FPS;
     private static bool ShiftHeld => Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
     [HarmonyPostfix]
     private static void Postfix()
     {
+        if (Time.frameCount == _lastFrame) return;
+        _lastFrame = Time.frameCount;
+
         DodgeRunner.Tick();
 
         if (!Dodge.Enabled.Value || !InPlay) return;
@@ -91,7 +99,7 @@ internal static class DodgeRunner
     // local: x = right, y = forward, relative to where you're looking (flattened to the ground).
     internal static void TryStart(Vector2 local)
     {
-        if (_player != null || Time.time < _cooldownUntil) return;
+        if (_player != null || Time.time < _cooldownUntil || Mantle.Active || GroundPound.Active) return;
         // A zero duration would divide distance by 0 into a NaN step and move the player to NaN.
         if (Dodge.Seconds.Value <= 0f || Dodge.Distance.Value <= 0f) return;
 

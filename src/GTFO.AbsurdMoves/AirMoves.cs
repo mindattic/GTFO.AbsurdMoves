@@ -62,6 +62,7 @@ internal static class AirMoves
     private const float SecondPressAfter = 0.1f;
     private const float WallRegrabDelay = 0.35f;
     private const float WallStick = 0.5f;
+    private const float MinGlideFallSpeed = 0.3f;
 
     private static float _airborneSince = -1f;
     private static bool _doubleJumpUsed;
@@ -71,6 +72,15 @@ internal static class AirMoves
     private static float _wallRegrabAt;
     private static Vector3 _wallNormal;
     private static Vector3 _wallTangent;
+
+    internal static void Reset()
+    {
+        _airborneSince = -1f;
+        _doubleJumpUsed = false;
+        _glideArmed = false;
+        _wallRunning = false;
+        _wallRegrabAt = 0f;
+    }
 
     internal static void Tick(PlayerAgent agent, PlayerLocomotion loc)
     {
@@ -137,9 +147,11 @@ internal static class AirMoves
             }
         }
 
-        if (_glideArmed && GlideEnabled.Value && jumpHeld && loc.m_verticalVelocity.y < -GlideFallSpeed.Value)
+        // A glide always sinks: a 0 or negative setting would hover or fly upward forever.
+        var glideSpeed = Mathf.Max(MinGlideFallSpeed, GlideFallSpeed.Value);
+        if (_glideArmed && GlideEnabled.Value && jumpHeld && loc.m_verticalVelocity.y < -glideSpeed)
         {
-            loc.m_verticalVelocity = Vector3.down * GlideFallSpeed.Value;
+            loc.m_verticalVelocity = Vector3.down * glideSpeed;
             Moves.ResetFallStart(agent, loc);
             Burn(agent);
         }

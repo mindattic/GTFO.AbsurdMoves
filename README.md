@@ -121,7 +121,7 @@ into it, and keep sliding the same way. Standing up, jumping or hitting a wall e
 | Setting | Default | What it does |
 |---|---|---|
 | `Slide Enabled` | true | Turns the slide on or off. |
-| `Slide Start Speed (m/s)` | 9 | Speed the slide starts at (more if you were already faster). |
+| `Slide Start Speed (m/s)` | 9 | Speed the slide starts at. |
 | `Slide Duration (seconds)` | 1.2 | How long a slide lasts; it covers about two thirds of start speed x duration. |
 
 ## Dodge

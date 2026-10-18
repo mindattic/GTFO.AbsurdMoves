@@ -62,7 +62,10 @@ internal sealed class BulletTime : MonoBehaviour
         loopStop = config.Bind(s, "LoopStopSound", "ENEMYHEARTBEATLOOPEND", "Stops the loop.");
     }
 
-    internal static void Init() => NetworkAPI.RegisterEvent<Trigger>(StartEvent, (_, _) => Begin());
+    // A teammate's trigger always starts it here, even if this machine is still cooling down from its
+    // own (clocks and cooldown settings differ between players): otherwise the host could ignore it
+    // and keep the enemies at full speed while the teammate sees bullet time.
+    internal static void Init() => NetworkAPI.RegisterEvent<Trigger>(StartEvent, (_, _) => Begin(fromTeammate: true));
 
     private static bool Active => startedAt >= 0f;
 
@@ -90,9 +93,9 @@ internal sealed class BulletTime : MonoBehaviour
         }
     }
 
-    private static bool Begin()
+    private static bool Begin(bool fromTeammate = false)
     {
-        if (Active || Time.time < readyAt) return false;
+        if (Active || (!fromTeammate && Time.time < readyAt)) return false;
         startedAt = Time.time;
         nextScan = 0f;
         rtpcs.Clear();

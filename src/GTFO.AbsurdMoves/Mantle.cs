@@ -38,9 +38,15 @@ internal static class Mantle
     private static bool _mantling;
     private static float _startedAt;
     private static Vector3 _from, _edge, _to;
-    private static bool _gunLowered;
+    private static FirstPersonItemHolder? _loweredOn;
 
     internal static bool Active => _mantling;
+
+    internal static void Reset()
+    {
+        _mantling = false;
+        RaiseGun();
+    }
 
     internal static void Tick(PlayerAgent agent, PlayerLocomotion loc)
     {
@@ -50,16 +56,16 @@ internal static class Mantle
             return;
         }
 
-        if (!Enabled.Value || !Moves.InPlay || !Moves.InAir(loc)) return;
+        if (!Enabled.Value || Seconds.Value <= 0f || GroundPound.Active || !Moves.InPlay || !Moves.InAir(loc)) return;
         if (InputMapper.GetAxis.Invoke(InputAction.MoveVertical, eFocusState.FPS) < 0.5f) return;
         if (!FindLedge(agent, out var top, out var forward)) return;
 
         _mantling = true;
         _startedAt = Time.time;
-        _from = agent.Position;
+        _from = agent.transform.position;
         _edge = new Vector3(_from.x, top.y + 0.05f, _from.z);
         _to = top + forward * 0.05f + Vector3.up * 0.05f;
-        LowerGun(agent, true);
+        LowerGun(agent);
         Step(agent, loc);
     }
 
@@ -70,7 +76,7 @@ internal static class Mantle
         {
             if (!agent.Alive || Seconds.Value <= 0f)
             {
-                Finish(agent);
+                Reset();
                 return;
             }
 
@@ -79,33 +85,46 @@ internal static class Mantle
                 ? Vector3.Lerp(_from, _edge, Mathf.SmoothStep(0f, 1f, t / 0.6f))
                 : Vector3.Lerp(_edge, _to, Mathf.SmoothStep(0f, 1f, (t - 0.6f) / 0.4f));
 
-            agent.PlayerCharacterController?.Move(target - agent.Position);
+            // The transform, not agent.Position: the controller moves the transform at once, while the
+            // agent's own position can lag a frame and would make each step overshoot.
+            agent.PlayerCharacterController?.Move(target - agent.transform.position);
             loc.m_verticalVelocity = Vector3.zero;
             loc.m_horizontalVelocity = Vector3.zero;
             Moves.ResetFallStart(agent, loc);
 
-            if (t >= 1f) Finish(agent);
+            if (t >= 1f) Reset();
         }
         catch (Exception e)
         {
             Plugin.Logger.LogWarning($"GTFO.AbsurdMoves mantle failed: {e.Message}");
-            Finish(agent);
+            Reset();
         }
     }
 
-    private static void Finish(PlayerAgent agent)
-    {
-        _mantling = false;
-        LowerGun(agent, false);
-    }
-
-    // The game's own "item down" counter: the gun drops out of the way while it's above zero.
-    private static void LowerGun(PlayerAgent agent, bool down)
+    // The game's own "item down" counter: the gun drops out of the way while it's above zero. The
+    // holder that was lowered is remembered so exactly that one gets its count back, even if the
+    // mantle is cut short by death or the level ending.
+    private static void LowerGun(PlayerAgent agent)
     {
         var holder = agent.FPItemHolder;
-        if (holder == null || down == _gunLowered) return;
-        _gunLowered = down;
-        holder.m_itemDownCounter = Mathf.Max(0, holder.m_itemDownCounter + (down ? 1 : -1));
+        if (holder == null || _loweredOn != null) return;
+        holder.m_itemDownCounter++;
+        _loweredOn = holder;
+    }
+
+    private static void RaiseGun()
+    {
+        var holder = _loweredOn;
+        _loweredOn = null;
+        if (holder == null) return;
+        try
+        {
+            if (!holder.WasCollected) holder.m_itemDownCounter = Mathf.Max(0, holder.m_itemDownCounter - 1);
+        }
+        catch (Exception)
+        {
+            // The holder went with the level; there's nothing left to raise.
+        }
     }
 
     // A wall right in front, with a flat top between knee height and eye level (plus margin), room

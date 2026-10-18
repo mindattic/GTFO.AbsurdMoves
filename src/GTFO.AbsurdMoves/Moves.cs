@@ -39,6 +39,22 @@ internal static class Moves
     // The held gun's own jump bob, as a normal jump plays it.
     internal static void JumpSway(PlayerAgent agent) => agent.FPItemHolder?.PlayJumpAnimation();
 
+    // A gap this long between updates means the level ended, or the player was dead or gone.
+    private const float StaleAfter = 0.5f;
+
+    private static IntPtr _lastLoc;
+    private static float _lastTick = -10f;
+
+    // Drops every move in progress: a mantle's lowered gun comes back up, a pound's fall-damage
+    // immunity ends, and nothing half-finished carries into the next life or level.
+    private static void ResetAll(PlayerLocomotion? loc)
+    {
+        GroundPound.Reset(loc);
+        Mantle.Reset();
+        AirMoves.Reset();
+        Slide.Reset();
+    }
+
     [HarmonyPostfix]
     private static void Postfix(PlayerLocomotion __instance)
     {
@@ -46,8 +62,16 @@ internal static class Moves
         {
             if (!__instance.LocallyOwned) return;
             var agent = __instance.m_owner;
-            if (agent == null || !agent.Alive || agent.Owner == null || agent.Owner.IsBot) return;
-            if (GameStateManager.CurrentStateName != eGameStateName.InLevel) return;
+            if (agent == null || agent.Owner == null || agent.Owner.IsBot) return;
+            if (!agent.Alive || GameStateManager.CurrentStateName != eGameStateName.InLevel)
+            {
+                ResetAll(__instance);
+                return;
+            }
+
+            if (__instance.Pointer != _lastLoc || Time.time - _lastTick > StaleAfter) ResetAll(__instance);
+            _lastLoc = __instance.Pointer;
+            _lastTick = Time.time;
 
             GroundPound.Tick(agent, __instance);
             Mantle.Tick(agent, __instance);
