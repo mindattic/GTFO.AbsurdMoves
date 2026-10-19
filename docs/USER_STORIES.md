@@ -42,3 +42,4 @@ _Nothing recorded yet._
 | GAM-T19 | 2026-10-18 | fix | closed | Dodge counted a first tap made without Shift held, so tap then Shift+tap dodged | — |
 | GAM-T20 | 2026-10-18 | fix | closed | Ground pound config unvalidated: negative Pushback Distance pulled enemies in, huge Debris Count spawned unbounded effects | — |
 | GAM-T21 | 2026-10-18 | fix | closed | Shared code from GTFO.EZ (G.EZ-T67/T68): one warden-message flag across mods that can't get stuck, owner skips mods without shared code | — |
+| GAM-T22 | 2026-10-18 | chore | open | Shared code republished from GTFO.EZ: SharedOwner.Order now lists GTFO.AbsurdItems | — |
