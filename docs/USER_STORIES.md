@@ -45,3 +45,4 @@ _Nothing recorded yet._
 | GAM-T22 | 2026-10-18 | chore | closed | Shared code republished from GTFO.EZ: SharedOwner.Order now lists GTFO.AbsurdItems | e92c94e |
 | GAM-T23 | 2026-10-18 | feature | closed | Master switch: [0. Mod] Enabled as the cfg's first entry; off means the mod loads nothing (user request) | — |
 | GAM-T24 | 2026-10-18 | feature | closed | Shared code republished from GTFO.EZ: SharedOwner treats a switched-off GTFO.* mod as not installed, IsActive/TryGetSetting helpers | 6c7fcb0 |
+| GAM-T25 | 2026-10-18 | fix | closed | Fire while running puts the running flag back in a finalizer, so a throwing gun Update can't leave the sprint reading as not running | 675ead4 |
