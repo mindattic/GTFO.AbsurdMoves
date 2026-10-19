@@ -29,6 +29,7 @@ The file's first entry switches the whole mod off, for a mod manager profile tha
 | [Wall running](#wall-running) | In the air next to a wall, press **Jump** again | `[Wall Running] Wall Running Enabled` |
 | [Double jump](#double-jump) | In the air away from a wall, press **Jump** again | `[Double Jump] Double Jump Enabled` |
 | [Ground pound](#ground-pound) | In the air, high enough up, press **Crouch** | `[Ground Pound] Ground Pound Enabled` |
+| [High jump](#high-jump) | Stay crouched on the ground until you flash, then press **Jump** | `[High Jump] High Jump Enabled` |
 | [Mantling](#mantling) | Jump at a ledge no higher than your eyes, holding **forward** | `[Mantling] Mantling Enabled` |
 | [Slide](#slide) | Press **Crouch** while sprinting | `[Slide] Slide Enabled` |
 | [Dodge](#dodge) | Hold **Shift** and double-tap **W/A/S/D** | `[Dodge] Dodge Enabled` |
@@ -79,6 +80,20 @@ double jump started.
 |---|---|---|
 | `Burn Loop Sound` | `FLAMERRESIDUALFIRELOOP` | The loop under a wall run (a game sound event name). Empty = silent. |
 | `Burn Loop Stop Sound` | `FLAMERRESIDUALFIRELOOPEND` | Stops it. |
+
+## High jump
+
+Stay crouched on the ground until you start to flash (a white light blinking at you, after 1 second),
+then press Jump: you're launched straight up about 10 meters. It's the game's own jump with the upward
+speed raised, and the landing takes no fall damage. Standing up before you jump drops the charge.
+
+### `[High Jump]`
+
+| Setting | Default | What it does |
+|---|---|---|
+| `High Jump Enabled` | true | Turns the high jump on or off. |
+| `Charge Time (seconds)` | 1 | How long you stay crouched before you flash and it's ready. |
+| `Height (meters)` | 10 | How high it launches you. |
 
 ## Ground pound
 

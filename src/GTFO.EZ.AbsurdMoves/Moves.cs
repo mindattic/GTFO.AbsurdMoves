@@ -53,6 +53,7 @@ internal static class Moves
         Mantle.Reset();
         AirMoves.Reset();
         Slide.Reset();
+        HighJump.Reset();
     }
 
     [HarmonyPostfix]
@@ -77,6 +78,7 @@ internal static class Moves
             Mantle.Tick(agent, __instance);
             if (!Mantle.Active) AirMoves.Tick(agent, __instance);
             Slide.Tick(agent, __instance);
+            HighJump.Tick(agent, __instance);
         }
         catch (Exception e)
         {

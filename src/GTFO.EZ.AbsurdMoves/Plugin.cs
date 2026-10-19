@@ -40,6 +40,7 @@ public class Plugin : BasePlugin
         RunAndStamina.Bind(Config);
         GroundPound.Bind(Config);
         Mantle.Bind(Config);
+        HighJump.Bind(Config);
 
         ClassInjector.RegisterTypeInIl2Cpp<LoopSounds>();
         ClassInjector.RegisterTypeInIl2Cpp<BulletTime>();

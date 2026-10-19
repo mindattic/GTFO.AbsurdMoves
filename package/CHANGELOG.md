@@ -14,6 +14,8 @@
 - **Double jump**: press Jump again in the air for a whole new jump from where you are - the
   game's own jump, no glide or float.
   A small burning loop plays while wall running.
+- **High jump**: stay crouched on the ground until you flash, then press Jump to launch about 10 m
+  straight up, with no fall damage on the landing.
 - **Ground pound**: press Crouch high enough in the air to slam down at double fall speed with no fall
   damage, landing in a shockwave that shoves and staggers enemies, with debris.
 - **Mantling**: jump at a ledge no higher than your eyes while holding forward to pull up onto it.
