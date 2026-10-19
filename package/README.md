@@ -3,7 +3,7 @@
 *(Listed on Thunderstore as `GtfoEZAbsurdMoves`. Package names there can only use letters, numbers
 and underscores, so they can't contain a period.)*
 
-GTFO.EZ.AbsurdMoves is a GTFO.EZ companion mod, built on [GTFO.EZ](https://github.com/mindattic/GTFO.EZ)'s core: it carries GTFO.EZ's shared code (the Insert/Delete infinite ammo and health toggles and their warden messages) and works with or without GTFO.EZ installed. It was called GTFO.AbsurdMoves before its first release.
+GTFO.EZ.AbsurdMoves is a GTFO.EZ companion mod, built on [GTFO.EZ](https://github.com/mindattic/GTFO.EZ)'s core: it carries GTFO.EZ's shared code (the Insert/Delete infinite ammo and health toggles, and MessageHelper, which puts on-screen messages wherever they fit) and works with or without GTFO.EZ installed. It was called GTFO.AbsurdMoves before its first release.
 
 A BepInEx plugin for GTFO that adds new player moves: wall running, double jump, ground
 pound, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
@@ -203,7 +203,7 @@ game's player data as it loads, so changes take effect on restart.
 ## Infinite ammo and health
 
 **Insert** toggles infinite ammo (every gun and tool stays full, no reloads) and **Delete** infinite
-health (no damage to you; bots and teammates are unaffected), each announced as a warden message.
+health (no damage to you; bots and teammates are unaffected), each announced in the event log.
 Both start off. They're the same two keys every GTFO.* mod has, from one shared copy of the code
 written in GTFO.EZ; with several of the mods installed, only one answers, so a press never toggles
 twice.
