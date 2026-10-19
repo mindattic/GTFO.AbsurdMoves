@@ -39,3 +39,4 @@ _Nothing recorded yet._
 | GAM-T16 | 2026-10-18 | fix | closed | Ground pound started inside the post-landing grace window recorded the mod's own fall-damage immunity as the game's, leaving fall damage off for good | — |
 | GAM-T17 | 2026-10-18 | fix | closed | Slide start speed ignored how fast you were already going, though the README promises more if you were already faster | — |
 | GAM-T18 | 2026-10-18 | fix | closed | Fire mid-air left the locomotion state faked as Stand if the gun's Update threw, since the restore was a postfix | — |
+| GAM-T19 | 2026-10-18 | fix | closed | Dodge counted a first tap made without Shift held, so tap then Shift+tap dodged | — |
