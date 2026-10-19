@@ -50,3 +50,4 @@ _Nothing recorded yet._
 | GAM-T27 | 2026-10-18 | fix | closed | Bullet time starts when its key is released on its own, so Alt+Tab (and other Alt chords) no longer sets it off for the whole team | 5e5c5a9 |
 | GAM-T28 | 2026-10-18 | fix | closed | Shared code from GTFO.EZ (G.EZ-T72/T75): warden message never cuts the game's own short; infinite-health check can't throw | — |
 | GAM-T29 | 2026-10-18 | chore | closed | Renamed to GTFO.EZ.AbsurdMoves (project, namespace, plugin GUID, network events, package name, docs) as a GTFO.EZ companion mod built on its core | 2bc02fc |
+| GAM-T30 | 2026-10-18 | fix | closed | Double jump floated: holding Jump after it glided you down. Now a classic double jump - glide and its settings removed | — |
