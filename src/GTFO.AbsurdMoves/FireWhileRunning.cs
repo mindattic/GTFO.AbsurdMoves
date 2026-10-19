@@ -7,7 +7,8 @@ namespace GTFO.AbsurdMoves;
 
 // The game's gun logic (BulletWeaponArchetype.Update) drops the trigger whenever its owner's
 // locomotion says it's running. For the local player's own gun, the running flag reads false for
-// the length of that one call, then goes straight back - the sprint itself carries on.
+// the length of that one call, then goes straight back - in a finalizer, so it goes back even if
+// the call throws, and the sprint itself carries on.
 [HarmonyPatch(typeof(BulletWeaponArchetype), nameof(BulletWeaponArchetype.Update))]
 internal static class FireWhileRunning
 {
@@ -31,8 +32,8 @@ internal static class FireWhileRunning
         loc.IsRunning = false;
     }
 
-    [HarmonyPostfix]
-    private static void Postfix(BulletWeaponArchetype __instance, bool __state)
+    [HarmonyFinalizer]
+    private static void Finalizer(BulletWeaponArchetype __instance, bool __state)
     {
         if (!__state) return;
         var loc = __instance.m_owner?.Locomotion;
