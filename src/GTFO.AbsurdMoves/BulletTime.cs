@@ -50,7 +50,8 @@ internal sealed class BulletTime : MonoBehaviour
     {
         const string s = "Bullet Time";
         featureOn = config.Bind(s, "Enabled", true, "Turns bullet time on or off. On: tap the key to slow every enemy to a crawl for a few seconds; players keep full speed.");
-        key = config.Bind(s, "Key", KeyCode.LeftAlt, "Starts bullet time.");
+        key = config.Bind(s, "Key", KeyCode.LeftAlt,
+            "Starts bullet time as you let go of it. A press with another key in it (Alt+Tab, Alt+Enter) or one that loses the game focus doesn't count.");
         duration = config.Bind(s, "DurationSeconds", 5f, "How long bullet time lasts.");
         cooldown = config.Bind(s, "CooldownSeconds", 10f, "Seconds after bullet time ends before it can start again.");
         enemySpeed = config.Bind(s, "EnemySpeed", 0.25f, "Enemy speed during bullet time (1 = normal, 0.25 = quarter speed).");
@@ -94,12 +95,11 @@ internal sealed class BulletTime : MonoBehaviour
             {
                 if (Active) End();
                 readyAt = 0f;
+                armed = false;
                 return;
             }
 
-            if (featureOn.Value && FocusStateManager.CurrentState == eFocusState.FPS && Input.GetKeyDown(key.Value)
-                && Begin())
-                NetworkAPI.InvokeEvent(StartEvent, new Trigger());
+            if (KeyTapped() && Begin()) NetworkAPI.InvokeEvent(StartEvent, new Trigger());
 
             if (Active) Tick();
         }
@@ -108,6 +108,30 @@ internal sealed class BulletTime : MonoBehaviour
             Plugin.Logger.LogError($"GTFO.AbsurdMoves bullet time failed: {e}");
             if (Active) End();
         }
+    }
+
+    // The key counts on release, and only if nothing else was pressed while it was held and the game
+    // kept focus: the default Left Alt is also the Alt of Alt+Tab, and the Alt press reaches the game
+    // before the window loses focus, so a press-to-start would fire on every Alt+Tab.
+    private static bool armed;
+
+    private static bool KeyTapped()
+    {
+        if (!featureOn.Value || FocusStateManager.CurrentState != eFocusState.FPS || !Application.isFocused)
+        {
+            armed = false;
+            return false;
+        }
+        if (Input.GetKeyDown(key.Value)) armed = true;
+        else if (armed && Input.anyKeyDown) armed = false; // a chord: Alt+Tab, Alt+F4, Alt+Enter
+        if (!armed || !Input.GetKeyUp(key.Value)) return false;
+        armed = false;
+        return true;
+    }
+
+    private void OnApplicationFocus(bool focused)
+    {
+        if (!focused) armed = false;
     }
 
     private static bool Begin(bool fromTeammate = false)

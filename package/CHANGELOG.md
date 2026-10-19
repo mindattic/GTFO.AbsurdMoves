@@ -18,4 +18,4 @@
 - **Faster sprint** (x1.25) and **more stamina** (x1.5), each a multiplier with its own switch.
 - **Dodge**: hold Shift and double-tap W/A/S/D to dodge that way (moved here from GTFO.EZ's dash).
 - **Bullet Time**: tap Left Alt to slow every enemy to a crawl for 5 s, with a muffled sound mix
-  (moved here from GTFO.AbsurdWeapons).
+  (moved here from GTFO.AbsurdWeapons). It starts as the key is let go, so Alt+Tab never sets it off.

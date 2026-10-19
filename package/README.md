@@ -157,7 +157,7 @@ so the host slows the enemies for the whole team. Needs the GTFO-API plugin.
 | Setting | Default | What it does |
 |---|---|---|
 | `Enabled` | true | Turns bullet time on or off. |
-| `Key` | LeftAlt | Starts bullet time. Presses while it's running or cooling down do nothing. |
+| `Key` | LeftAlt | Starts bullet time as you let go of it. A press with another key in it (Alt+Tab, Alt+Enter) or one that loses the game focus doesn't count, and presses while it's running or cooling down do nothing. |
 | `DurationSeconds` | 5 | How long it lasts. |
 | `CooldownSeconds` | 10 | Wait after it ends before it can start again. |
 | `EnemySpeed` | 0.25 | Enemy speed during bullet time (1 = normal). |
