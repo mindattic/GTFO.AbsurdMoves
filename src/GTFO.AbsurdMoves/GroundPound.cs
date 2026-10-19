@@ -49,10 +49,21 @@ internal static class GroundPound
         ImpactSound = config.Bind(s, "Impact Sound", "STINGER_LOW_BOOM", "Played on landing (a game sound event name). Empty = silent.");
     }
 
+    // The handler runs inside GTFO-API's prefix on the game's packet receive (SNet_Replication.RecieveBytes):
+    // an exception escaping it would hand GTFO-API's packet on to the game as if it were its own.
     internal static void Init()
     {
         NetworkAPI.RegisterEvent<ImpactMessage>(ImpactEvent, (sender, message) =>
-            Land(new Vector3(message.X, message.Y, message.Z), PlayerFor(sender)));
+        {
+            try
+            {
+                Land(new Vector3(message.X, message.Y, message.Z), PlayerFor(sender));
+            }
+            catch (Exception e)
+            {
+                Plugin.Logger.LogWarning($"GTFO.AbsurdMoves teammate's ground pound failed: {e.Message}");
+            }
+        });
     }
 
     private static bool _pounding;

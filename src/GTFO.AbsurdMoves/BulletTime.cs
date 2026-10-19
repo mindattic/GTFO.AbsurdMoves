@@ -65,7 +65,24 @@ internal sealed class BulletTime : MonoBehaviour
     // A teammate's trigger always starts it here, even if this machine is still cooling down from its
     // own (clocks and cooldown settings differ between players): otherwise the host could ignore it
     // and keep the enemies at full speed while the teammate sees bullet time.
-    internal static void Init() => NetworkAPI.RegisterEvent<Trigger>(StartEvent, (_, _) => Begin(fromTeammate: true));
+    // The handler runs inside GTFO-API's prefix on the game's packet receive, so nothing escapes it
+    // (see GroundPound.Init); a start that fails halfway is ended so nothing stays slowed or muffled.
+    internal static void Init() => NetworkAPI.RegisterEvent<Trigger>(StartEvent, (_, _) =>
+    {
+        try
+        {
+            Begin(fromTeammate: true);
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError($"GTFO.AbsurdMoves teammate's bullet time failed: {e}");
+            try
+            {
+                if (Active) End();
+            }
+            catch (Exception) { }
+        }
+    });
 
     private static bool Active => startedAt >= 0f;
 
