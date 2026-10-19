@@ -2,7 +2,7 @@ using HarmonyLib;
 using Player;
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 // Shared per-frame driver and helpers for the movement features: runs once per frame for the
 // local player's locomotion only (never a teammate's or a bot's).
@@ -80,7 +80,7 @@ internal static class Moves
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogWarning($"GTFO.AbsurdMoves movement update failed: {e}");
+            Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves movement update failed: {e}");
         }
     }
 }

@@ -2,6 +2,9 @@
 
 ## v1
 
+- Renamed from GTFO.AbsurdMoves to **GTFO.EZ.AbsurdMoves** before release, as a GTFO.EZ companion mod built
+  on GTFO.EZ's core (plugin GUID `MindAttic.GTFO.EZ.AbsurdMoves`, config file
+  `MindAttic.GTFO.EZ.AbsurdMoves.cfg`, Thunderstore package `GtfoEZAbsurdMoves`).
 - **Master switch**: `[0. Mod] Enabled` (default `true`) is the config file's first entry; set it to
   `false` and the whole mod is off - nothing is patched, no move or hotkey works.
 - **Insert** (infinite ammo) and **Delete** (infinite health) toggles, announced as warden
@@ -18,4 +21,4 @@
 - **Faster sprint** (x1.25) and **more stamina** (x1.5), each a multiplier with its own switch.
 - **Dodge**: hold Shift and double-tap W/A/S/D to dodge that way (moved here from GTFO.EZ's dash).
 - **Bullet Time**: tap Left Alt to slow every enemy to a crawl for 5 s, with a muffled sound mix
-  (moved here from GTFO.AbsurdWeapons). It starts as the key is let go, so Alt+Tab never sets it off.
+  (moved here from GTFO.EZ.AbsurdWeapons). It starts as the key is let go, so Alt+Tab never sets it off.

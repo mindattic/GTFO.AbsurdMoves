@@ -4,15 +4,15 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 [BepInPlugin(GUID, NAME, VERSION)]
 [BepInProcess("GTFO.exe")]
 [BepInDependency("dev.gtfomodding.gtfo-api")]
 public class Plugin : BasePlugin
 {
-    public const string GUID = "MindAttic.GTFO.AbsurdMoves";
-    public const string NAME = "GTFO.AbsurdMoves";
+    public const string GUID = "MindAttic.GTFO.EZ.AbsurdMoves";
+    public const string NAME = "GTFO.EZ.AbsurdMoves";
     public const string VERSION = "1.0.0";
 
     internal static ManualLogSource Logger = null!;

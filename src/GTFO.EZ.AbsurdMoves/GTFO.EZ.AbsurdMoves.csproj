@@ -16,11 +16,11 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <DebugType>none</DebugType>
-    <AssemblyName>GTFO.AbsurdMoves</AssemblyName>
-    <RootNamespace>GTFO.AbsurdMoves</RootNamespace>
+    <AssemblyName>GTFO.EZ.AbsurdMoves</AssemblyName>
+    <RootNamespace>GTFO.EZ.AbsurdMoves</RootNamespace>
 
     <BepInEx>$(AppData)\Thunderstore Mod Manager\DataFolder\$(GameName)\profiles\$(GameName) - $(Profile)\BepInEx</BepInEx>
-    <OutputPath>$(BepInEx)\plugins\GTFO.AbsurdMoves\</OutputPath>
+    <OutputPath>$(BepInEx)\plugins\GTFO.EZ.AbsurdMoves\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 

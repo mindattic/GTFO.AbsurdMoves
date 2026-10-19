@@ -3,7 +3,7 @@ using HarmonyLib;
 using Player;
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Crouch while sprinting to slide: you carry on the way you were running, holding most of your

@@ -1,8 +1,8 @@
 {
-  "name": "GtfoAbsurdMoves",
+  "name": "GtfoEZAbsurdMoves",
   "version_number": "1.0.0",
-  "website_url": "https://github.com/mindattic/GTFO.AbsurdMoves",
-  "description": "Wall running, double jump + glide, ground pound shockwave, sprint slide, Shift+WASD dodge, Alt bullet time, fire mid-air and while sprinting, faster sprint, more stamina. Every move toggles on/off and is tunable in the config. Needs GTFO-API.",
+  "website_url": "https://github.com/mindattic/GTFO.EZ.AbsurdMoves",
+  "description": "GTFO.EZ companion: wall running, double jump + glide, ground pound shockwave, sprint slide, Shift+WASD dodge, Alt bullet time, fire mid-air and while sprinting, faster sprint, more stamina. Every move toggles and is tunable. Needs GTFO-API.",
   "dependencies": [
     "BepInEx-BepInExPack_GTFO-3.2.3"
   ]

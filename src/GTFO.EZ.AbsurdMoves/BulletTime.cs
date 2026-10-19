@@ -5,7 +5,7 @@ using Il2CppInterop.Runtime;
 using Player;
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Max Payne bullet time: a tap of the key slows every enemy (their animation and their navmesh
@@ -16,7 +16,7 @@ namespace GTFO.AbsurdMoves;
 /// </summary>
 internal sealed class BulletTime : MonoBehaviour
 {
-    private const string StartEvent = "MindAttic.GTFO.AbsurdMoves.BulletTime";
+    private const string StartEvent = "MindAttic.GTFO.EZ.AbsurdMoves.BulletTime";
     private const float RampIn = 0.3f;
     private const float RampOut = 0.6f;
     private const float RescanEvery = 0.5f;
@@ -76,7 +76,7 @@ internal sealed class BulletTime : MonoBehaviour
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError($"GTFO.AbsurdMoves teammate's bullet time failed: {e}");
+            Plugin.Logger.LogError($"GTFO.EZ.AbsurdMoves teammate's bullet time failed: {e}");
             try
             {
                 if (Active) End();
@@ -105,7 +105,7 @@ internal sealed class BulletTime : MonoBehaviour
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError($"GTFO.AbsurdMoves bullet time failed: {e}");
+            Plugin.Logger.LogError($"GTFO.EZ.AbsurdMoves bullet time failed: {e}");
             if (Active) End();
         }
     }

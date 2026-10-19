@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 internal static class Sounds
 {
@@ -15,7 +15,7 @@ internal static class Sounds
         }
         catch (Exception e)
         {
-            if (failed.Add(eventName)) Plugin.Logger.LogWarning($"GTFO.AbsurdMoves couldn't play sound '{eventName}': {e.Message}");
+            if (failed.Add(eventName)) Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves couldn't play sound '{eventName}': {e.Message}");
         }
     }
 }
@@ -60,7 +60,7 @@ internal sealed class LoopSounds : MonoBehaviour
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogWarning($"GTFO.AbsurdMoves couldn't run loop sound '{startEvent}': {e.Message}");
+            Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves couldn't run loop sound '{startEvent}': {e.Message}");
             loops.Remove(key);
         }
     }
@@ -84,7 +84,7 @@ internal sealed class LoopSounds : MonoBehaviour
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogWarning($"GTFO.AbsurdMoves couldn't stop a loop sound: {e.Message}");
+                Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves couldn't stop a loop sound: {e.Message}");
             }
         }
     }

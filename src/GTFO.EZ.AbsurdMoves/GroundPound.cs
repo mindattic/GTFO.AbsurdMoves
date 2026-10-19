@@ -8,7 +8,7 @@ using SNetwork;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Ground pound: press Crouch in mid-air, high enough above the floor, and you slam straight down
@@ -18,7 +18,7 @@ namespace GTFO.AbsurdMoves;
 /// </summary>
 internal static class GroundPound
 {
-    private const string ImpactEvent = "MindAttic.GTFO.AbsurdMoves.GroundPound";
+    private const string ImpactEvent = "MindAttic.GTFO.EZ.AbsurdMoves.GroundPound";
     private const float FallDamageGraceSeconds = 0.5f;
     // Each burst is a full impact effect; a mistyped count shouldn't spawn thousands at once.
     private const int MaxDebris = 50;
@@ -61,7 +61,7 @@ internal static class GroundPound
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogWarning($"GTFO.AbsurdMoves teammate's ground pound failed: {e.Message}");
+                Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves teammate's ground pound failed: {e.Message}");
             }
         });
     }
@@ -188,7 +188,7 @@ internal static class GroundPound
                 }
                 catch (Exception e)
                 {
-                    Plugin.Logger.LogWarning($"GTFO.AbsurdMoves ground pound hit failed: {e.Message}");
+                    Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves ground pound hit failed: {e.Message}");
                 }
             }
         }
@@ -291,7 +291,7 @@ internal sealed class PoundPushes : MonoBehaviour
             }
             catch (Exception e)
             {
-                Plugin.Logger.LogWarning($"GTFO.AbsurdMoves ground pound push failed: {e.Message}");
+                Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves ground pound push failed: {e.Message}");
                 (done ??= new()).Add(key);
             }
         }

@@ -3,7 +3,7 @@ using GameData;
 using HarmonyLib;
 using Player;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Faster sprinting and more stamina, as multipliers on the game's own player data (applied once
@@ -65,7 +65,7 @@ internal static class RunAndStamina
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogError($"GTFO.AbsurdMoves couldn't apply run speed / stamina: {e}");
+            Plugin.Logger.LogError($"GTFO.EZ.AbsurdMoves couldn't apply run speed / stamina: {e}");
         }
     }
 

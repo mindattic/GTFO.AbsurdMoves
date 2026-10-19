@@ -2,7 +2,7 @@ using BepInEx.Configuration;
 using Player;
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Mantling: in the air, pushing forward into a ledge whose top is no higher than your eyes, you're
@@ -96,7 +96,7 @@ internal static class Mantle
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogWarning($"GTFO.AbsurdMoves mantle failed: {e.Message}");
+            Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves mantle failed: {e.Message}");
             Reset();
         }
     }

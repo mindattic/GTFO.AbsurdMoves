@@ -3,11 +3,11 @@ using HarmonyLib;
 using Player;
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 // Hold Shift and double-tap W/A/S/D for a quick dodge that way - mainly to duck out of the way of a
 // homing projectile on short notice. Moves the player through the game's own character controller
-// with a wall-stopping SphereCast each step, the same approach as GTFO.AbsurdWeapons' Katana dash,
+// with a wall-stopping SphereCast each step, the same approach as GTFO.EZ.AbsurdWeapons' Katana dash,
 // so it collides and syncs like any other movement rather than teleporting through geometry.
 internal static class Dodge
 {

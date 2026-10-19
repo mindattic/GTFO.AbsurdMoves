@@ -3,7 +3,7 @@ using Gear;
 using HarmonyLib;
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 // The game's gun logic (BulletWeaponArchetype.Update) drops the trigger whenever its owner's
 // locomotion says it's running. For the local player's own gun, the running flag reads false for
@@ -77,7 +77,7 @@ internal static class FireWhileRunningPose
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogWarning($"GTFO.AbsurdMoves sprint-fire pose failed: {e.Message}");
+            Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves sprint-fire pose failed: {e.Message}");
         }
     }
 }

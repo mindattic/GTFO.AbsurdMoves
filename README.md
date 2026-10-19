@@ -1,16 +1,18 @@
-# GTFO.AbsurdMoves
+# GTFO.EZ.AbsurdMoves
 
-![GTFO.AbsurdMoves](logo.png)
+![GTFO.EZ.AbsurdMoves](logo.png)
 
-*(Listed on Thunderstore as `GtfoAbsurdMoves`. Package names there can only use letters, numbers
+*(Listed on Thunderstore as `GtfoEZAbsurdMoves`. Package names there can only use letters, numbers
 and underscores, so they can't contain a period.)*
+
+GTFO.EZ.AbsurdMoves is a GTFO.EZ companion mod, built on [GTFO.EZ](https://github.com/mindattic/GTFO.EZ)'s core: it carries GTFO.EZ's shared code (the Insert/Delete infinite ammo and health toggles and their warden messages) and works with or without GTFO.EZ installed. It was called GTFO.AbsurdMoves before its first release.
 
 A BepInEx plugin for GTFO that adds new player moves: wall running, double jump and glide, ground
 pound, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
 No game files are shipped or edited.
 
 **Every move has its own on/off switch, and its numbers can be retuned,** in the config file
-BepInEx creates on first launch: `BepInEx\config\MindAttic.GTFO.AbsurdMoves.cfg`.
+BepInEx creates on first launch: `BepInEx\config\MindAttic.GTFO.EZ.AbsurdMoves.cfg`.
 
 ### `[0. Mod]`
 
@@ -213,7 +215,7 @@ twice.
 
 ## Compatibility
 
-- **GTFO.EZ** used to have the dodge (as its dash), and **GTFO.AbsurdWeapons** used to have bullet
+- **GTFO.EZ** used to have the dodge (as its dash), and **GTFO.EZ.AbsurdWeapons** used to have bullet
   time. Both moved here. Running an older build of either alongside this mod gives you two of the
   same move: switch one of them off in its config.
 - Wall running, double jump, glide, ground pound, mantling, slide and fire on the move were worked out from the
@@ -233,7 +235,7 @@ Needs the .NET 6 SDK and a GTFO profile with BepInEx and GTFO-API installed (Bep
 ## Project layout
 
 ```
-src/GTFO.AbsurdMoves/
+src/GTFO.EZ.AbsurdMoves/
   Plugin.cs            BepInEx entry point: binds each move's config, applies Harmony patches
   Moves.cs             Per-frame driver for the local player's movement, and shared helpers
   AirMoves.cs          Wall running, double jump, glide

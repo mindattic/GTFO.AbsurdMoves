@@ -3,7 +3,7 @@ using Gear;
 using HarmonyLib;
 using Player;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 // The game's gun logic (BulletWeaponArchetype.Update) drops the trigger whenever its owner's
 // locomotion is in the Jump or Fall state. For the local player's own gun, it's shown a grounded

@@ -3,7 +3,7 @@ using HarmonyLib;
 using Player;
 using UnityEngine;
 
-namespace GTFO.AbsurdMoves;
+namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Mid-air moves on a second press of Jump: next to a wall it starts a wall run along it, anywhere
