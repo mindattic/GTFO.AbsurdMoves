@@ -2,6 +2,7 @@ using BepInEx.Configuration;
 using Enemies;
 using FX_EffectSystem;
 using GTFO.API;
+using MindAttic.GTFO.Shared;
 using Il2CppInterop.Runtime.Attributes;
 using Player;
 using SNetwork;
@@ -53,7 +54,7 @@ internal static class GroundPound
     // an exception escaping it would hand GTFO-API's packet on to the game as if it were its own.
     internal static void Init()
     {
-        NetworkAPI.RegisterEvent<ImpactMessage>(ImpactEvent, (sender, message) =>
+        RemoteEvents.Register<ImpactMessage>(ImpactEvent, (sender, message) =>
         {
             try
             {

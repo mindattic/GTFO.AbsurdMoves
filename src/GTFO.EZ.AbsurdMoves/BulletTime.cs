@@ -66,7 +66,7 @@ internal sealed class BulletTime : MonoBehaviour
     // speed while the others are slowed.
     // The handler runs inside GTFO-API's prefix on the game's packet receive, so nothing escapes it
     // (see GroundPound.Init); a start that fails halfway is ended so nothing stays slowed or muffled.
-    internal static void Init() => NetworkAPI.RegisterEvent<Trigger>(StartEvent, (_, _) =>
+    internal static void Init() => RemoteEvents.Register<Trigger>(StartEvent, (_, _) =>
     {
         try
         {
