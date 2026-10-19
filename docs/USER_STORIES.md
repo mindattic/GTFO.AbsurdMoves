@@ -55,3 +55,4 @@ _Nothing recorded yet._
 | GAM-T32 | 2026-10-18 | fix | closed | Double jump is the game's own jump re-entered from the current height (PLOC_State.Jump), not a fixed upward speed; Double Jump Speed setting removed | — |
 | GAM-T33 | 2026-10-18 | feature | closed | High jump: stay crouched on the ground until you flash, then press Jump to launch ~10 m up (the game's jump with a raised upward speed), no fall damage on landing (user request) | — |
 | GAM-T34 | 2026-10-18 | feature | closed | Bullet time slows enemy projectiles too (ProjectileTargeting speed, lifetime extended) while players and bots keep full speed, and the event log says 'Bullet time ready' when the cooldown ends (user request) | — |
+| GAM-T35 | 2026-10-19 | feature | closed | Bullet time slows the whole game clock (Time.timeScale, eased in and out) so everyone and everything is affected, Max Payne style; replaces per-enemy and per-projectile slowing; EnemySpeed becomes TimeScale (user request) | — |
