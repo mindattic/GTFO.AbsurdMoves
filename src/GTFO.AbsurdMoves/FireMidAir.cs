@@ -7,7 +7,8 @@ namespace GTFO.AbsurdMoves;
 
 // The game's gun logic (BulletWeaponArchetype.Update) drops the trigger whenever its owner's
 // locomotion is in the Jump or Fall state. For the local player's own gun, it's shown a grounded
-// state for the length of that one call, then the real state goes straight back.
+// state for the length of that one call, then the real state goes straight back - in a finalizer,
+// so it goes back even if the call throws.
 [HarmonyPatch(typeof(BulletWeaponArchetype), nameof(BulletWeaponArchetype.Update))]
 internal static class FireMidAir
 {
@@ -33,8 +34,8 @@ internal static class FireMidAir
         loc.m_currentStateEnum = PlayerLocomotion.PLOC_State.Stand;
     }
 
-    [HarmonyPostfix]
-    private static void Postfix(BulletWeaponArchetype __instance, byte __state)
+    [HarmonyFinalizer]
+    private static void Finalizer(BulletWeaponArchetype __instance, byte __state)
     {
         if (__state == Untouched) return;
         var loc = __instance.m_owner?.Locomotion;
