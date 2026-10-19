@@ -47,3 +47,4 @@ _Nothing recorded yet._
 | GAM-T24 | 2026-10-18 | feature | closed | Shared code republished from GTFO.EZ: SharedOwner treats a switched-off GTFO.* mod as not installed, IsActive/TryGetSetting helpers | 6c7fcb0 |
 | GAM-T25 | 2026-10-18 | fix | closed | Fire while running puts the running flag back in a finalizer, so a throwing gun Update can't leave the sprint reading as not running | 675ead4 |
 | GAM-T26 | 2026-10-18 | fix | closed | Ground pound and bullet time network handlers catch their own errors, so a failure never escapes into GTFO-API's packet hook on SNet_Replication.RecieveBytes | 6686df5 |
+| GAM-T27 | 2026-10-18 | fix | closed | Bullet time starts when its key is released on its own, so Alt+Tab (and other Alt chords) no longer sets it off for the whole team | 5e5c5a9 |
