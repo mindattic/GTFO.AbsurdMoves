@@ -40,3 +40,4 @@ _Nothing recorded yet._
 | GAM-T17 | 2026-10-18 | fix | closed | Slide start speed ignored how fast you were already going, though the README promises more if you were already faster | — |
 | GAM-T18 | 2026-10-18 | fix | closed | Fire mid-air left the locomotion state faked as Stand if the gun's Update threw, since the restore was a postfix | — |
 | GAM-T19 | 2026-10-18 | fix | closed | Dodge counted a first tap made without Shift held, so tap then Shift+tap dodged | — |
+| GAM-T20 | 2026-10-18 | fix | closed | Ground pound config unvalidated: negative Pushback Distance pulled enemies in, huge Debris Count spawned unbounded effects | — |
