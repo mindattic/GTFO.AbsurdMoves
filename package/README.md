@@ -10,6 +10,14 @@ No game files are shipped or edited.
 **Every move has its own on/off switch, and its numbers can be retuned,** in the config file
 BepInEx creates on first launch: `BepInEx\config\MindAttic.GTFO.AbsurdMoves.cfg`.
 
+### `[0. Mod]`
+
+The file's first entry switches the whole mod off, for a mod manager profile that doesn't list it:
+
+| Setting | Default | What it does |
+|---|---|---|
+| `Enabled` | true | Turn the whole mod on or off. When false, the mod loads nothing: no patches, no moves, no hotkeys. Takes effect on restart. |
+
 ## The moves
 
 | Move | How | Switch |

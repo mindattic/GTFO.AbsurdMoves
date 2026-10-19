@@ -2,6 +2,8 @@
 
 ## v1
 
+- **Master switch**: `[0. Mod] Enabled` (default `true`) is the config file's first entry; set it to
+  `false` and the whole mod is off - nothing is patched, no move or hotkey works.
 - **Insert** (infinite ammo) and **Delete** (infinite health) toggles, announced as warden
   messages - the shared keys every GTFO.* mod has, so they never clash with several installed.
 - Initial release. Every move has its own on/off switch in the config.
