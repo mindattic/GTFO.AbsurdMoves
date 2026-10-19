@@ -73,11 +73,12 @@ internal static class DodgeHotkey_Update_Patch
 
         for (var i = 0; i < DirectionKeys.Length; i++)
         {
-            if (!Input.GetKeyDown(DirectionKeys[i].Key)) continue;
+            // Both taps need Shift held: a plain W tap then Shift+W isn't a dodge.
+            if (!Input.GetKeyDown(DirectionKeys[i].Key) || !ShiftHeld) continue;
 
             var sincePrevious = Time.time - LastTap[i];
             LastTap[i] = Time.time;
-            if (ShiftHeld && sincePrevious <= Dodge.DoubleTapWindowSeconds.Value)
+            if (sincePrevious <= Dodge.DoubleTapWindowSeconds.Value)
             {
                 LastTap[i] = -10f; // a third tap starts a fresh pair rather than chaining off this one
                 DodgeRunner.TryStart(DirectionKeys[i].Dir);
