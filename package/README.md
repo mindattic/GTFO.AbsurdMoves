@@ -90,7 +90,7 @@ the host shoves the enemies, so it works for the whole team. Needs the GTFO-API 
 | `Pushback Distance (meters)` | 4 | How far an enemy right next to you is shoved (less further out). |
 | `Shockwave Damage` | 10 | Damage to each enemy caught in it (less further out). 0 = push only. |
 | `Shockwave Stagger` | 3 | Stagger multiplier of that hit. |
-| `Debris Count` | 10 | Dust-and-scorch bursts scattered around the landing. |
+| `Debris Count` | 10 | Dust-and-scorch bursts scattered around the landing (at most 50). |
 | `Impact Sound` | `STINGER_LOW_BOOM` | Played on landing. Empty = silent. |
 
 ## Mantling

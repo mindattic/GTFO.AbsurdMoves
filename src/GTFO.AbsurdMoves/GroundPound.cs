@@ -20,6 +20,8 @@ internal static class GroundPound
 {
     private const string ImpactEvent = "MindAttic.GTFO.AbsurdMoves.GroundPound";
     private const float FallDamageGraceSeconds = 0.5f;
+    // Each burst is a full impact effect; a mistyped count shouldn't spawn thousands at once.
+    private const int MaxDebris = 50;
 
     internal static ConfigEntry<bool> Enabled = null!;
     internal static ConfigEntry<float> MinHeight = null!;
@@ -43,7 +45,7 @@ internal static class GroundPound
         PushDistance = config.Bind(s, "Pushback Distance (meters)", 4f, "How far an enemy right next to you is shoved (less further out).");
         Damage = config.Bind(s, "Shockwave Damage", 10f, "Damage to each enemy in the shockwave (less further out). 0 = push only.");
         Stagger = config.Bind(s, "Shockwave Stagger", 3f, "Stagger multiplier of the shockwave's hit.");
-        DebrisCount = config.Bind(s, "Debris Count", 10, "Dust-and-scorch bursts scattered around the landing - a crater, not a single puff.");
+        DebrisCount = config.Bind(s, "Debris Count", 10, "Dust-and-scorch bursts scattered around the landing - a crater, not a single puff. At most 50.");
         ImpactSound = config.Bind(s, "Impact Sound", "STINGER_LOW_BOOM", "Played on landing (a game sound event name). Empty = silent.");
     }
 
@@ -165,7 +167,7 @@ internal static class GroundPound
             var falloff = Mathf.Clamp01(1f - away.magnitude / radius);
             away.Normalize();
 
-            PoundPushes.Start(enemy, away, PushDistance.Value * Mathf.Lerp(0.35f, 1f, falloff));
+            PoundPushes.Start(enemy, away, Mathf.Max(0f, PushDistance.Value) * Mathf.Lerp(0.35f, 1f, falloff));
             if (Damage.Value > 0f && pounder != null)
             {
                 try
@@ -188,7 +190,8 @@ internal static class GroundPound
         {
             FX_Manager.PlayEffect(false, FX_GroupName.Impact_Concrete, center + Vector3.up * 0.05f, Quaternion.LookRotation(Vector3.up), true);
             var spread = Mathf.Max(1f, Radius.Value * 0.5f);
-            for (var i = 0; i < DebrisCount.Value; i++)
+            var count = Mathf.Clamp(DebrisCount.Value, 0, MaxDebris);
+            for (var i = 0; i < count; i++)
             {
                 var offset = UnityEngine.Random.insideUnitCircle * spread;
                 var spot = center + new Vector3(offset.x, 1f, offset.y);
