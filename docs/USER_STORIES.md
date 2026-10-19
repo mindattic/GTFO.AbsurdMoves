@@ -52,3 +52,4 @@ _Nothing recorded yet._
 | GAM-T29 | 2026-10-18 | chore | closed | Renamed to GTFO.EZ.AbsurdMoves (project, namespace, plugin GUID, network events, package name, docs) as a GTFO.EZ companion mod built on its core | 2bc02fc |
 | GAM-T30 | 2026-10-18 | fix | closed | Double jump floated: holding Jump after it glided you down. Now a classic double jump - glide and its settings removed | — |
 | GAM-T31 | 2026-10-18 | fix | closed | Shared code from GTFO.EZ (G.EZ-T78/T79): WardenMessage became MessageHelper; Insert/Delete announce in the event log | — |
+| GAM-T32 | 2026-10-18 | fix | closed | Double jump is the game's own jump re-entered from the current height (PLOC_State.Jump), not a fixed upward speed; Double Jump Speed setting removed | — |
