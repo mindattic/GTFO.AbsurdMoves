@@ -63,7 +63,8 @@ land. A small burning sound loops while you run.
 ## Double jump
 
 Press Jump a second time in the air, away from a wall, to jump again: a classic double jump, once per
-jump, keeping your sideways momentum, with normal gravity after it. Fall damage counts from where the
+jump - the game's own jump started again from your current height, as high as a jump off the ground
+(hold Jump for the full height). Fall damage counts from where the
 double jump started.
 
 ### `[Double Jump]`
@@ -71,7 +72,6 @@ double jump started.
 | Setting | Default | What it does |
 |---|---|---|
 | `Double Jump Enabled` | true | Turns the double jump on or off. |
-| `Double Jump Speed (m/s)` | 6.5 | Upward speed the double jump gives. |
 
 ### `[Air Move Sounds]`
 

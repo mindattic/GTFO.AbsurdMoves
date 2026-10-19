@@ -7,7 +7,7 @@ namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Mid-air moves on a second press of Jump: next to a wall it starts a wall run along it, anywhere
-/// else it's a classic double jump - one more jump, your sideways momentum kept, normal gravity after.
+/// else it's a classic double jump - the game's own jump started again from your current height.
 /// Both work by writing the game's own locomotion velocities while it's in its Jump/Fall state, so the
 /// game moves the player (and syncs it) exactly as it does a normal jump. A small fire loop plays while
 /// wall running.
@@ -23,7 +23,6 @@ internal static class AirMoves
     internal static ConfigEntry<float> WallJumpPushSpeed = null!;
 
     internal static ConfigEntry<bool> DoubleJumpEnabled = null!;
-    internal static ConfigEntry<float> DoubleJumpSpeed = null!;
 
     internal static ConfigEntry<string> BurnLoopSound = null!;
     internal static ConfigEntry<string> BurnLoopStopSound = null!;
@@ -44,8 +43,7 @@ internal static class AirMoves
         const string jump = "Double Jump";
         DoubleJumpEnabled = config.Bind(jump, "Double Jump Enabled", true,
             "Turns the double jump on or off. On: press Jump a second time in the air (away from a wall) to jump " +
-            "again. Once per jump; kicking off a wall gives it back.");
-        DoubleJumpSpeed = config.Bind(jump, "Double Jump Speed (m/s)", 6.5f, "Upward speed the double jump gives.");
+            "again - a whole new jump, the game's own, from wherever you are. Once per jump; kicking off a wall gives it back.");
 
         const string sound = "Air Move Sounds";
         BurnLoopSound = config.Bind(sound, "Burn Loop Sound", "FLAMERRESIDUALFIRELOOP",
@@ -126,10 +124,11 @@ internal static class AirMoves
             }
             if (DoubleJumpEnabled.Value && !_doubleJumpUsed)
             {
+                // A whole new jump from where you are: the game's own jump state re-entered, so it's
+                // exactly a ground jump's height and arc (holding Jump included), started mid-air.
                 _doubleJumpUsed = true;
-                loc.m_verticalVelocity = Vector3.up * DoubleJumpSpeed.Value;
                 Moves.ResetFallStart(agent, loc);
-                Moves.JumpSway(agent);
+                loc.ChangeState(PlayerLocomotion.PLOC_State.Jump, false);
             }
         }
     }

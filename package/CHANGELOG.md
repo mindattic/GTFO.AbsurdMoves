@@ -11,7 +11,8 @@
   messages - the shared keys every GTFO.* mod has, so they never clash with several installed.
 - Initial release. Every move has its own on/off switch in the config.
 - **Wall running**: in the air next to a wall, press Jump again to run along it; Jump again kicks off.
-- **Double jump**: press Jump again in the air to jump again - a classic double jump, no glide or float.
+- **Double jump**: press Jump again in the air for a whole new jump from where you are - the
+  game's own jump, no glide or float.
   A small burning loop plays while wall running.
 - **Ground pound**: press Crouch high enough in the air to slam down at double fall speed with no fall
   damage, landing in a shockwave that shoves and staggers enemies, with debris.
