@@ -134,7 +134,10 @@ internal static class GroundPound
         _pounding = true;
         _startedAt = Time.time;
         _speed = Mathf.Max(MinSpeed.Value, -loc.m_verticalVelocity.y * 2f);
-        _gameImmunity = loc.DisableFallDamageTemporarily;
+        // Inside the last pound's landing grace the immunity on now is the mod's own, not the game's:
+        // keep the value captured before that pound.
+        if (_graceUntil <= 0f) _gameImmunity = loc.DisableFallDamageTemporarily;
+        _graceUntil = 0f;
         loc.DisableFallDamageTemporarily = true;
     }
 
