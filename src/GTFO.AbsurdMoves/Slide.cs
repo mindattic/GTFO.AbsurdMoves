@@ -25,7 +25,7 @@ internal static class Slide
             "Turns the slide on or off. On: crouch while sprinting to slide on in the direction you were running - " +
             "holding your speed, then easing to a stop - while you look and shoot anywhere. Standing up, jumping or " +
             "hitting a wall ends it.");
-        Speed = config.Bind(s, "Slide Start Speed (m/s)", 9f, "Speed the slide starts at.");
+        Speed = config.Bind(s, "Slide Start Speed (m/s)", 9f, "Speed the slide starts at (more if you were already faster).");
         Seconds = config.Bind(s, "Slide Duration (seconds)", 1.2f,
             "How long a slide lasts. Speed holds near the start speed early on and drops off toward the end; " +
             "a slide covers about two thirds of start speed x duration (7 m at the defaults).");
@@ -61,7 +61,8 @@ internal static class Slide
             var velocity = loc.HorizontalVelocity;
             velocity.y = 0f;
             _direction = velocity.sqrMagnitude > 0.25f ? velocity.normalized : Moves.FlatForward(agent);
-            _startSpeed = Speed.Value;
+            // Never slower than you were already running (a boosted sprint keeps its edge).
+            _startSpeed = Mathf.Max(Speed.Value, velocity.magnitude);
             // The game gave the crouch its own little push as it left the sprint; the slide replaces
             // it rather than stacking on top (which would move you twice and overshoot).
             loc.ResetExternalPushForce();
