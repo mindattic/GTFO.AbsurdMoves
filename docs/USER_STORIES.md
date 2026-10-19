@@ -1,6 +1,6 @@
 ---
 codex: 1
-project: GTFO.AbsurdMoves
+project: GTFO.EZ.AbsurdMoves
 code: GAM
 layer: stories
 status: living
@@ -8,7 +8,7 @@ updated: 2026-10-18
 ---
 <!-- GENERATED from MindAttic.Workflow/data/workflow.db by `workflow db render`. Do not edit: this file is rewritten from the database; change stories and tickets with the workflow CLI. -->
 
-# GTFO.AbsurdMoves — User Stories
+# GTFO.EZ.AbsurdMoves — User Stories
 > ✅ done (shipped & tested) · 🟡 partial · ⬜ planned. Every ✅ cites the test.
 
 ## Priority backlog
