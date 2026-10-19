@@ -5,8 +5,8 @@ and underscores, so they can't contain a period.)*
 
 GTFO.EZ.AbsurdMoves is a GTFO.EZ companion mod, built on [GTFO.EZ](https://github.com/mindattic/GTFO.EZ)'s core: it carries GTFO.EZ's shared code (the Insert/Delete infinite ammo and health toggles, and MessageHelper, which puts on-screen messages wherever they fit) and works with or without GTFO.EZ installed. It was called GTFO.AbsurdMoves before its first release.
 
-A BepInEx plugin for GTFO that adds new player moves: wall running, double jump, ground
-pound, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
+A BepInEx plugin for GTFO that adds new player moves: wall running, double jump, high
+jump, ground pound, mantling, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
 No game files are shipped or edited.
 
 **Every move has its own on/off switch, and its numbers can be retuned,** in the config file

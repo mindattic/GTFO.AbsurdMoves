@@ -13,7 +13,7 @@ public class Plugin : BasePlugin
 {
     public const string GUID = "MindAttic.GTFO.EZ.AbsurdMoves";
     public const string NAME = "GTFO.EZ.AbsurdMoves";
-    public const string VERSION = "1.0.0";
+    public const string VERSION = "13.0.0";
 
     internal static ManualLogSource Logger = null!;
 

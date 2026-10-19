@@ -7,8 +7,8 @@ and underscores, so they can't contain a period.)*
 
 GTFO.EZ.AbsurdMoves is a GTFO.EZ companion mod, built on [GTFO.EZ](https://github.com/mindattic/GTFO.EZ)'s core: it carries GTFO.EZ's shared code (the Insert/Delete infinite ammo and health toggles, and MessageHelper, which puts on-screen messages wherever they fit) and works with or without GTFO.EZ installed. It was called GTFO.AbsurdMoves before its first release.
 
-A BepInEx plugin for GTFO that adds new player moves: wall running, double jump, ground
-pound, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
+A BepInEx plugin for GTFO that adds new player moves: wall running, double jump, high
+jump, ground pound, mantling, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
 No game files are shipped or edited.
 
 **Every move has its own on/off switch, and its numbers can be retuned,** in the config file
@@ -237,6 +237,16 @@ twice.
   game's own movement and weapon code but haven't been confirmed in play yet. If one misbehaves,
   switch it off and the rest keep working.
 
+## Versioning
+
+v1, v2, v3... - major-only bumps, matching the convention across other MindAttic projects.
+Thunderstore requires `manifest.json`'s `version_number` to be strict `x.y.z`, so "v13" is `13.0.0`
+(minor/patch stay 0). `package/CHANGELOG.md` headers use the short `vN` form.
+
+The GTFO.EZ family - GTFO.EZ, GTFO.EZ.AbsurdWeapons, GTFO.EZ.AbsurdMoves and GTFO.EZ.AbsurdItems -
+shares one version number, so a matching set is easy to spot: the companions' first release is
+**v13**, in step with GTFO.EZ (not v1), and a release of the family bumps all four together.
+
 ## Building
 
 ```powershell
@@ -264,7 +274,8 @@ src/GTFO.EZ.AbsurdMoves/
   RunAndStamina.cs     Sprint speed and stamina multipliers on the player datablock
   Sounds.cs            One-shot and looping Wwise sound helpers
   Shared/              generated from GTFO.EZ's src/GTFO.EZ/Shared by its tools/publish-shared.ps1 -
-                       never edit here: the Insert/Delete infinite ammo/health toggles
+                       never edit here: the Insert/Delete toggles, MessageHelper and RemoteEvents
+                       (throw-safe GTFO-API network events, used by bullet time and ground pound)
 package/               Thunderstore manifest, icon (256x256, from logo.png), README and changelog
 logo.png               Full-size logo
 ```
