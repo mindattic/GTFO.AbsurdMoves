@@ -23,6 +23,6 @@
 - **Fire on the move**: guns fire mid-air and while sprinting.
 - **Faster sprint** (x1.25) and **more stamina** (x1.5), each a multiplier with its own switch.
 - **Dodge**: hold Shift and double-tap W/A/S/D to dodge that way (moved here from GTFO.EZ's dash).
-- **Bullet Time**: tap Left Alt to slow every enemy and enemy projectile to a crawl for 5 s (players and
-  bots keep full speed; the event log says when it's ready again), with a muffled sound mix
+- **Bullet Time**: tap Left Alt to slow the whole game - everyone and everything - for 5 s, easing in and
+  back out, Max Payne style (the event log says when it's ready again), with a muffled sound mix
   (moved here from GTFO.EZ.AbsurdWeapons). It starts as the key is let go, so Alt+Tab never sets it off.

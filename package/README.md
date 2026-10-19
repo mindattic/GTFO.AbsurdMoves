@@ -162,8 +162,9 @@ mainly for ducking out of a homing projectile's path on short notice. Walls stop
 
 ## Bullet time
 
-Tap Left Alt and every enemy - and every enemy projectile - slows to a crawl while you, your teammates and
-bots keep full speed, Max Payne style. Once its cooldown is over, the event log on the left says
+Tap Left Alt and the whole game slows down, Max Payne style - you, your teammates, bots, enemies and
+projectiles alike. It eases into slow motion, holds for 5 seconds, then eases back up to full speed.
+Once its cooldown is over, the event log on the left says
 "Bullet time ready". The sound
 drops to a hollow, muffled mix, with a deep boom going in and a heartbeat underneath. It's broadcast,
 so the host slows the enemies for the whole team. Needs the GTFO-API plugin.
@@ -174,9 +175,9 @@ so the host slows the enemies for the whole team. Needs the GTFO-API plugin.
 |---|---|---|
 | `Enabled` | true | Turns bullet time on or off. |
 | `Key` | LeftAlt | Starts bullet time as you let go of it. A press with another key in it (Alt+Tab, Alt+Enter) or one that loses the game focus doesn't count, and presses while it's running or cooling down do nothing. |
-| `DurationSeconds` | 5 | How long it lasts. |
+| `DurationSeconds` | 5 | How long it lasts, in real seconds. |
 | `CooldownSeconds` | 10 | Wait after it ends before it can start again. |
-| `EnemySpeed` | 0.25 | Enemy speed during bullet time (1 = normal). |
+| `TimeScale` | 0.3 | How fast the game runs during bullet time (1 = normal). |
 | `SoundMuffle` | `SOUND_EFFECT_MUFFLE=100, GAME_MENU_MUFFLE=100` | Wwise mix parameters pushed for the hollow sound, restored after. |
 | `EnterSound` / `ExitSound` | `STINGER_LOW_BOOM` / `COMBAT_FADING_PULSE_LEVEL_1` | Played going in and coming out. |
 | `LoopSound` / `LoopStopSound` | `ENEMYHEARTBEATLOOP` / `ENEMYHEARTBEATLOOPEND` | The heartbeat under it. |
@@ -255,7 +256,7 @@ src/GTFO.EZ.AbsurdMoves/
   Mantle.cs            Pull-up onto ledges no higher than eye level
   Slide.cs             Crouch-while-sprinting slide
   Dodge.cs             Shift + double-tap W/A/S/D dodge
-  BulletTime.cs        Left Alt: slows every enemy (animator + navmesh speed) with a muffled Wwise mix
+  BulletTime.cs        Left Alt: slows the whole game clock (Time.timeScale, eased in and out) with a muffled Wwise mix
   FireMidAir.cs        Lets your guns fire in the air
   FireWhileRunning.cs  Lets your guns fire while sprinting
   RunAndStamina.cs     Sprint speed and stamina multipliers on the player datablock
