@@ -7,10 +7,10 @@ namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Mid-air moves on a second press of Jump: next to a wall it starts a wall run along it, anywhere
-/// else it's a double jump, and holding Jump after a double jump glides you down. Both work by
-/// writing the game's own locomotion velocities while it's in its Jump/Fall state, so the game moves
-/// the player (and syncs it) exactly as it does a normal jump. A small fire loop plays while wall
-/// running or gliding.
+/// else it's a classic double jump - one more jump, your sideways momentum kept, normal gravity after.
+/// Both work by writing the game's own locomotion velocities while it's in its Jump/Fall state, so the
+/// game moves the player (and syncs it) exactly as it does a normal jump. A small fire loop plays while
+/// wall running.
 /// </summary>
 internal static class AirMoves
 {
@@ -24,8 +24,6 @@ internal static class AirMoves
 
     internal static ConfigEntry<bool> DoubleJumpEnabled = null!;
     internal static ConfigEntry<float> DoubleJumpSpeed = null!;
-    internal static ConfigEntry<bool> GlideEnabled = null!;
-    internal static ConfigEntry<float> GlideFallSpeed = null!;
 
     internal static ConfigEntry<string> BurnLoopSound = null!;
     internal static ConfigEntry<string> BurnLoopStopSound = null!;
@@ -48,13 +46,10 @@ internal static class AirMoves
             "Turns the double jump on or off. On: press Jump a second time in the air (away from a wall) to jump " +
             "again. Once per jump; kicking off a wall gives it back.");
         DoubleJumpSpeed = config.Bind(jump, "Double Jump Speed (m/s)", 6.5f, "Upward speed the double jump gives.");
-        GlideEnabled = config.Bind(jump, "Glide Enabled", true,
-            "Turns gliding on or off. On: keep holding Jump after a double jump and you fall slowly instead of dropping.");
-        GlideFallSpeed = config.Bind(jump, "Glide Fall Speed (m/s)", 1.5f, "How fast you sink while gliding.");
 
         const string sound = "Air Move Sounds";
         BurnLoopSound = config.Bind(sound, "Burn Loop Sound", "FLAMERRESIDUALFIRELOOP",
-            "A small burning loop while wall running or gliding (a game sound event name). Empty = silent.");
+            "A small burning loop while wall running (a game sound event name). Empty = silent.");
         BurnLoopStopSound = config.Bind(sound, "Burn Loop Stop Sound", "FLAMERRESIDUALFIRELOOPEND", "Stops the burn loop.");
     }
 
@@ -62,11 +57,9 @@ internal static class AirMoves
     private const float SecondPressAfter = 0.1f;
     private const float WallRegrabDelay = 0.35f;
     private const float WallStick = 0.5f;
-    private const float MinGlideFallSpeed = 0.3f;
 
     private static float _airborneSince = -1f;
     private static bool _doubleJumpUsed;
-    private static bool _glideArmed;
     private static bool _wallRunning;
     private static float _wallRunUntil;
     private static float _wallRegrabAt;
@@ -77,7 +70,6 @@ internal static class AirMoves
     {
         _airborneSince = -1f;
         _doubleJumpUsed = false;
-        _glideArmed = false;
         _wallRunning = false;
         _wallRegrabAt = 0f;
     }
@@ -88,7 +80,6 @@ internal static class AirMoves
         {
             _airborneSince = -1f;
             _doubleJumpUsed = false;
-            _glideArmed = false;
             _wallRunning = false;
             return;
         }
@@ -96,12 +87,10 @@ internal static class AirMoves
         if (GroundPound.Active)
         {
             _wallRunning = false;
-            _glideArmed = false;
             return;
         }
 
         var jumpDown = Moves.InPlay && InputMapper.GetButtonDown.Invoke(InputAction.Jump, eFocusState.FPS);
-        var jumpHeld = Moves.InPlay && InputMapper.GetButton.Invoke(InputAction.Jump, eFocusState.FPS);
         var secondPress = jumpDown && Time.time - _airborneSince > SecondPressAfter;
 
         if (_wallRunning)
@@ -132,28 +121,16 @@ internal static class AirMoves
                 _wallTangent = Vector3.zero;
                 _wallRunning = true;
                 _wallRunUntil = Time.time + WallRunMaxSeconds.Value;
-                _glideArmed = false;
                 WallRun(agent, loc);
                 return;
             }
             if (DoubleJumpEnabled.Value && !_doubleJumpUsed)
             {
                 _doubleJumpUsed = true;
-                _glideArmed = true;
                 loc.m_verticalVelocity = Vector3.up * DoubleJumpSpeed.Value;
                 Moves.ResetFallStart(agent, loc);
                 Moves.JumpSway(agent);
-                return;
             }
-        }
-
-        // A glide always sinks: a 0 or negative setting would hover or fly upward forever.
-        var glideSpeed = Mathf.Max(MinGlideFallSpeed, GlideFallSpeed.Value);
-        if (_glideArmed && GlideEnabled.Value && jumpHeld && loc.m_verticalVelocity.y < -glideSpeed)
-        {
-            loc.m_verticalVelocity = Vector3.down * glideSpeed;
-            Moves.ResetFallStart(agent, loc);
-            Burn(agent);
         }
     }
 
@@ -179,7 +156,6 @@ internal static class AirMoves
         _wallRunning = false;
         _wallRegrabAt = Time.time + WallRegrabDelay;
         _doubleJumpUsed = false;
-        _glideArmed = false;
 
         var push = _wallNormal * WallJumpPushSpeed.Value + _wallTangent * WallRunSpeed.Value * 0.5f;
         loc.m_horizontalVelocity = push;

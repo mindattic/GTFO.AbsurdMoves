@@ -21,7 +21,7 @@ internal static class Moves
         return forward.sqrMagnitude > 0.0001f ? forward.normalized : Vector3.forward;
     }
 
-    // Fall damage is measured from where the fall started, so a glide or wall run moves that start
+    // Fall damage is measured from where the fall started, so a double jump or wall run moves that start
     // along with you: you only take damage for what you drop after it ends.
     internal static void ResetFallStart(PlayerAgent agent, PlayerLocomotion loc)
     {
