@@ -2,6 +2,7 @@ using BepInEx.Configuration;
 using Enemies;
 using GTFO.API;
 using Il2CppInterop.Runtime;
+using MindAttic.GTFO.Shared;
 using Player;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Max Payne bullet time: a tap of the key slows every enemy (their animation and their navmesh
-/// movement) for a few seconds while players keep full speed - the game clock is never touched.
+/// movement) and their projectiles for a few seconds while players and bots keep full speed - the
+/// game clock is never touched. Once the cooldown is over, the event log says it's ready again.
 /// The world's sound drops to a hollow, muffled mix with a deep boom going in and a heartbeat under
 /// it. A press while it's running or cooling down does nothing. The trigger is broadcast so the host,
 /// who drives the enemies, slows them for everyone.
@@ -38,11 +40,22 @@ internal sealed class BulletTime : MonoBehaviour
         public float BaseAnim, AppliedAnim = -1f, BaseNav, AppliedNav = -1f;
     }
 
+    private sealed class SlowedShot
+    {
+        public ProjectileTargeting Shot = null!;
+        public float BaseSpeed, AppliedSpeed = -1f;
+    }
+
     private static readonly Dictionary<IntPtr, Slowed> slowed = new();
+    // Enemy projectiles in flight - short-lived, so rescanned more often than the enemies.
+    private static readonly Dictionary<IntPtr, SlowedShot> slowedShots = new();
+    private const float ShotRescanEvery = 0.1f;
     private static readonly List<(uint Id, float Target, float Before)> rtpcs = new();
     private static float startedAt = -1f;
     private static float readyAt;
-    private static float nextScan;
+    private static float nextScan, nextShotScan;
+    // Set when bullet time ends; the event log says so once the cooldown is over.
+    private static bool announceReady;
 
     public BulletTime(IntPtr ptr) : base(ptr) { }
 
@@ -96,12 +109,18 @@ internal sealed class BulletTime : MonoBehaviour
                 if (Active) End();
                 readyAt = 0f;
                 armed = false;
+                announceReady = false;
                 return;
             }
 
             if (KeyTapped() && Begin()) NetworkAPI.InvokeEvent(StartEvent, new Trigger());
 
             if (Active) Tick();
+            else if (announceReady && Time.time >= readyAt)
+            {
+                announceReady = false;
+                if (featureOn.Value) MessageHelper.Show("Bullet time ready", MessageType.EventLog);
+            }
         }
         catch (Exception e)
         {
@@ -201,6 +220,46 @@ internal sealed class BulletTime : MonoBehaviour
             }
         }
         if (gone != null) foreach (var ptr in gone) slowed.Remove(ptr);
+
+        SlowShots(factor);
+    }
+
+    // Enemy projectiles fly at `factor` of their speed too, and live that much longer so they still
+    // reach as far. Players and bots are never touched.
+    private static void SlowShots(float factor)
+    {
+        if (Time.time >= nextShotScan)
+        {
+            nextShotScan = Time.time + ShotRescanEvery;
+            foreach (var found in UnityEngine.Object.FindObjectsOfType(Il2CppType.Of<ProjectileTargeting>()))
+            {
+                var shot = found.TryCast<ProjectileTargeting>();
+                if (shot != null && !slowedShots.ContainsKey(shot.Pointer)) slowedShots[shot.Pointer] = new SlowedShot { Shot = shot };
+            }
+        }
+
+        List<IntPtr>? gone = null;
+        foreach (var (ptr, s) in slowedShots)
+        {
+            try
+            {
+                if (s.Shot == null || s.Shot.WasCollected) { (gone ??= new()).Add(ptr); continue; }
+                ApplyShot(s, factor);
+                s.Shot.m_endLifeTime += Time.deltaTime * (1f - factor);
+            }
+            catch (Exception)
+            {
+                (gone ??= new()).Add(ptr);
+            }
+        }
+        if (gone != null) foreach (var ptr in gone) slowedShots.Remove(ptr);
+    }
+
+    private static void ApplyShot(SlowedShot s, float factor)
+    {
+        if (!Mathf.Approximately(s.Shot.Speed, s.AppliedSpeed)) s.BaseSpeed = s.Shot.Speed;
+        s.AppliedSpeed = s.BaseSpeed * factor;
+        s.Shot.Speed = s.AppliedSpeed;
     }
 
     // The game sets enemy speeds itself (state changes, running): a value that isn't the one we last
@@ -235,10 +294,21 @@ internal sealed class BulletTime : MonoBehaviour
             catch (Exception) { }
         }
         slowed.Clear();
+        foreach (var s in slowedShots.Values)
+        {
+            try
+            {
+                if (s.Shot == null || s.Shot.WasCollected) continue;
+                ApplyShot(s, 1f);
+            }
+            catch (Exception) { }
+        }
+        slowedShots.Clear();
         foreach (var (id, _, before) in rtpcs) CellSound.SetGlobalRTPCValue(id, before);
         rtpcs.Clear();
         startedAt = -1f;
         readyAt = Time.time + cooldown.Value;
+        announceReady = true;
         if (GameStateManager.CurrentStateName == eGameStateName.InLevel && PlayerManager.GetLocalPlayerAgent() is { } player)
             Sounds.Play(exitSound.Value, player.Position);
     }

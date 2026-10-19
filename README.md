@@ -164,7 +164,9 @@ mainly for ducking out of a homing projectile's path on short notice. Walls stop
 
 ## Bullet time
 
-Tap Left Alt and every enemy slows to a crawl while you keep full speed, Max Payne style. The sound
+Tap Left Alt and every enemy - and every enemy projectile - slows to a crawl while you, your teammates and
+bots keep full speed, Max Payne style. Once its cooldown is over, the event log on the left says
+"Bullet time ready". The sound
 drops to a hollow, muffled mix, with a deep boom going in and a heartbeat underneath. It's broadcast,
 so the host slows the enemies for the whole team. Needs the GTFO-API plugin.
 
