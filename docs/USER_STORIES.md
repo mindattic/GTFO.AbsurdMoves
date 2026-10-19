@@ -43,3 +43,4 @@ _Nothing recorded yet._
 | GAM-T20 | 2026-10-18 | fix | closed | Ground pound config unvalidated: negative Pushback Distance pulled enemies in, huge Debris Count spawned unbounded effects | — |
 | GAM-T21 | 2026-10-18 | fix | closed | Shared code from GTFO.EZ (G.EZ-T67/T68): one warden-message flag across mods that can't get stuck, owner skips mods without shared code | — |
 | GAM-T22 | 2026-10-18 | chore | closed | Shared code republished from GTFO.EZ: SharedOwner.Order now lists GTFO.AbsurdItems | e92c94e |
+| GAM-T23 | 2026-10-18 | feature | closed | Master switch: [0. Mod] Enabled as the cfg's first entry; off means the mod loads nothing (user request) | — |
