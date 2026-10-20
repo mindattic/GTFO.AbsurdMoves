@@ -1,5 +1,19 @@
 # Changelog
 
+## v14
+
+- **Removed: wall running.** GTFO's levels have too few long, flat walls for it to be useful. Its
+  `[Wall Running]` and `[Air Move Sounds]` settings stay in an existing `.cfg` as leftover lines that
+  do nothing; the double jump works anywhere in the air now, wall or no wall.
+- **Double jump** goes higher: its upward speed is scaled by the new `[Double Jump] Second Jump
+  Height Multiplier` (default 1.5), so the second jump clears well above a ground jump.
+- **Bug fix:** the high jump never launched - the game's own jump took the charged press first, so
+  you got a normal-height jump. The charge now carries into that jump.
+- **Slide** goes twice as far: *Slide Duration* 1.2 s -> 2.4 s, about 14 m at the default speed. An
+  install still on the old 1.2 is moved to 2.4 once; a value you set yourself is kept.
+- Moves in step with the GTFO.EZ family's version number (GTFO.EZ, GTFO.EZ.AbsurdWeapons,
+  GTFO.EZ.AbsurdMoves and GTFO.EZ.AbsurdItems share one).
+
 ## v13
 
 - **Versioning:** the GTFO.EZ family - GTFO.EZ, GTFO.EZ.AbsurdWeapons, GTFO.EZ.AbsurdMoves and
@@ -15,8 +29,7 @@
 - Initial release. Every move has its own on/off switch in the config.
 - **Wall running**: in the air next to a wall, press Jump again to run along it; Jump again kicks off.
 - **Double jump**: press Jump again in the air for a whole new jump from where you are - the
-  game's own jump, no glide or float - its upward speed scaled by `[Double Jump] Second Jump Height
-  Multiplier` (default 1.5) so the second jump goes higher than the first.
+  game's own jump, no glide or float.
   A small burning loop plays while wall running.
 - **High jump**: stay crouched on the ground until you flash, then press Jump to launch about 10 m
   straight up, with no fall damage on the landing.

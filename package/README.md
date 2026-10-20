@@ -5,7 +5,7 @@ and underscores, so they can't contain a period.)*
 
 GTFO.EZ.AbsurdMoves is a GTFO.EZ companion mod, built on [GTFO.EZ](https://github.com/mindattic/GTFO.EZ)'s core: it carries GTFO.EZ's shared code (the Insert/Delete infinite ammo and health toggles, and MessageHelper, which puts on-screen messages wherever they fit) and works with or without GTFO.EZ installed. It was called GTFO.AbsurdMoves before its first release.
 
-A BepInEx plugin for GTFO that adds new player moves: wall running, double jump, high
+A BepInEx plugin for GTFO that adds new player moves: double jump, high
 jump, ground pound, mantling, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
 No game files are shipped or edited.
 
@@ -24,8 +24,7 @@ The file's first entry switches the whole mod off, for a mod manager profile tha
 
 | Move | How | Switch |
 |---|---|---|
-| [Wall running](#wall-running) | In the air next to a wall, press **Jump** again | `[Wall Running] Wall Running Enabled` |
-| [Double jump](#double-jump) | In the air away from a wall, press **Jump** again | `[Double Jump] Double Jump Enabled` |
+| [Double jump](#double-jump) | In the air, press **Jump** again | `[Double Jump] Double Jump Enabled` |
 | [Ground pound](#ground-pound) | In the air, high enough up, press **Crouch** | `[Ground Pound] Ground Pound Enabled` |
 | [High jump](#high-jump) | Stay crouched on the ground until you flash, then press **Jump** | `[High Jump] High Jump Enabled` |
 | [Mantling](#mantling) | Jump at a ledge no higher than your eyes, holding **forward** | `[Mantling] Mantling Enabled` |
@@ -40,28 +39,9 @@ The file's first entry switches the whole mod off, for a mod manager profile tha
 
 Jump and Crouch are the game's own bindings, so they follow whatever you've rebound them to.
 
-## Wall running
-
-While you're in the air next to a wall, press Jump a second time to run along the wall, in
-whichever direction along it you're looking. Press Jump again to kick off the wall, which also gives
-you your double jump back. A wall run ends when the wall runs out, when it times out, or when you
-land. A small burning sound loops while you run.
-
-### `[Wall Running]`
-
-| Setting | Default | What it does |
-|---|---|---|
-| `Wall Running Enabled` | true | Turns wall running on or off. |
-| `Wall Run Speed (m/s)` | 8 | Speed along the wall. |
-| `Wall Run Max Duration (seconds)` | 2.5 | Longest a single wall run lasts. |
-| `Wall Reach (meters)` | 1.2 | How close a wall must be. |
-| `Wall Run Sink Speed (m/s)` | 0.4 | How fast you slide down the wall while on it (0 = level). |
-| `Wall Jump Up Speed (m/s)` | 6 | Upward speed kicking off a wall. |
-| `Wall Jump Push Speed (m/s)` | 5 | Speed away from the wall kicking off it. |
-
 ## Double jump
 
-Press Jump a second time in the air, away from a wall, to jump again: a classic double jump, once per
+Press Jump a second time in the air to jump again: a classic double jump, once per
 jump - the game's own jump started again from your current height, its upward speed scaled by
 `Second Jump Height Multiplier` (1.5 by default, so it goes well above a jump off the ground).
 Fall damage counts from where the double jump started.
@@ -72,13 +52,6 @@ Fall damage counts from where the double jump started.
 |---|---|---|
 | `Double Jump Enabled` | true | Turns the double jump on or off. |
 | `Second Jump Height Multiplier` | 1.5 | Scales the second jump's upward speed against a ground jump (1 = the same; height grows with the square). |
-
-### `[Air Move Sounds]`
-
-| Setting | Default | What it does |
-|---|---|---|
-| `Burn Loop Sound` | `FLAMERRESIDUALFIRELOOP` | The loop under a wall run (a game sound event name). Empty = silent. |
-| `Burn Loop Stop Sound` | `FLAMERRESIDUALFIRELOOPEND` | Stops it. |
 
 ## High jump
 
@@ -134,7 +107,7 @@ pull-up, like a vault. Anything below knee height is left to the game's own step
 ## Slide
 
 Crouch while sprinting to slide on in the direction you were running. The slide holds most of your
-speed at first, then brakes into a stop, covering about 7 m at the defaults. Movement keys are
+speed at first, then brakes into a stop, covering about 14 m at the defaults. Movement keys are
 ignored while you slide and the camera stays free. You can slide past an open doorway, turn and shoot
 into it, and keep sliding the same way. Standing up, jumping or hitting a wall ends it.
 
@@ -144,7 +117,7 @@ into it, and keep sliding the same way. Standing up, jumping or hitting a wall e
 |---|---|---|
 | `Slide Enabled` | true | Turns the slide on or off. |
 | `Slide Start Speed (m/s)` | 9 | Speed the slide starts at (more if you were already faster). |
-| `Slide Duration (seconds)` | 1.2 | How long a slide lasts; it covers about two thirds of start speed x duration. |
+| `Slide Duration (seconds)` | 2.4 | How long a slide lasts; it covers about two thirds of start speed x duration. |
 
 ## Dodge
 
@@ -188,7 +161,7 @@ Any [Unity `KeyCode`](https://docs.unity3d.com/ScriptReference/KeyCode.html) nam
 ## Fire on the move
 
 Vanilla GTFO ignores the trigger while you're sprinting or in the air. With these on, your guns fire
-while you jump, fall, wall run or sprint, and sprinting carries on while you shoot. Only your
+while you jump, fall or sprint, and sprinting carries on while you shoot. Only your
 own guns are affected, not teammates' or bots'.
 
 Shooting mid-sprint brings your gun up out of its lowered sprint pose for as long as you hold the
@@ -232,7 +205,7 @@ twice.
 - **GTFO.EZ** used to have the dodge (as its dash), and **GTFO.EZ.AbsurdWeapons** used to have bullet
   time. Both moved here. Running an older build of either alongside this mod gives you two of the
   same move: switch one of them off in its config.
-- Wall running, double jump, ground pound, mantling, slide and fire on the move were worked out from the
+- Double jump, ground pound, mantling, slide and fire on the move were worked out from the
   game's own movement and weapon code but haven't been confirmed in play yet. If one misbehaves,
   switch it off and the rest keep working.
 
@@ -252,7 +225,8 @@ Needs the .NET 6 SDK and a GTFO profile with BepInEx and GTFO-API installed (Bep
 src/GTFO.EZ.AbsurdMoves/
   Plugin.cs            BepInEx entry point: binds each move's config, applies Harmony patches
   Moves.cs             Per-frame driver for the local player's movement, and shared helpers
-  AirMoves.cs          Wall running, double jump
+  AirMoves.cs          Double jump
+  ConfigMigrations.cs  One-time moves of a changed default onto configs still on the old one
   GroundPound.cs       Ground pound and its shockwave (host-side enemy pushes)
   Mantle.cs            Pull-up onto ledges no higher than eye level
   Slide.cs             Crouch-while-sprinting slide
