@@ -26,9 +26,9 @@ internal static class Slide
             "holding your speed, then easing to a stop - while you look and shoot anywhere. Standing up, jumping or " +
             "hitting a wall ends it.");
         Speed = config.Bind(s, "Slide Start Speed (m/s)", 9f, "Speed the slide starts at (more if you were already faster).");
-        Seconds = config.Bind(s, "Slide Duration (seconds)", 1.2f,
+        Seconds = config.Bind(s, "Slide Duration (seconds)", 2.4f,
             "How long a slide lasts. Speed holds near the start speed early on and drops off toward the end; " +
-            "a slide covers about two thirds of start speed x duration (7 m at the defaults).");
+            "a slide covers about two thirds of start speed x duration (14 m at the defaults).");
     }
 
     private const float WallProbeRadius = 0.3f;
