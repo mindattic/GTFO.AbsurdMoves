@@ -205,9 +205,9 @@ twice.
 - **GTFO.EZ** used to have the dodge (as its dash), and **GTFO.EZ.AbsurdWeapons** used to have bullet
   time. Both moved here. Running an older build of either alongside this mod gives you two of the
   same move: switch one of them off in its config.
-- Double jump, ground pound, mantling, slide and fire on the move were worked out from the
-  game's own movement and weapon code but haven't been confirmed in play yet. If one misbehaves,
-  switch it off and the rest keep working.
+- Double jump, ground pound, mantling, slide and fire on the move are built on the game's own
+  movement and weapon code and confirmed in play. If one misbehaves, switch it off and the rest
+  keep working.
 
 ## Building
 
