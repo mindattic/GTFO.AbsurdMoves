@@ -31,6 +31,10 @@ internal static class HighJump
 
     private static float _crouchedFor;
     private static bool _launched;
+    // Charged and still crouched at the end of the last frame: the game's own jump handling runs
+    // before Tick in the same Update and turns a crouch into Jump on the press, so the charge has to
+    // survive that frame to be spent on the jump it started.
+    private static bool _chargedLastFrame;
     private static GameObject? _flash;
     private static EffectLight? _light;
 
@@ -40,6 +44,7 @@ internal static class HighJump
     {
         _crouchedFor = 0f;
         _launched = false;
+        _chargedLastFrame = false;
         SetFlash(null, false);
     }
 
@@ -53,7 +58,19 @@ internal static class HighJump
             else _launched = false;
         }
 
-        if (!Enabled.Value || loc.m_currentStateEnum != PlayerLocomotion.PLOC_State.Crouch)
+        var wasCharged = _chargedLastFrame;
+        _chargedLastFrame = false;
+        var state = loc.m_currentStateEnum;
+
+        // The usual path: Jump pressed while charged, and the game's own jump already took the press
+        // and left the crouch this frame. Raise that jump's upward speed to the high jump's.
+        if (Enabled.Value && wasCharged && state == PlayerLocomotion.PLOC_State.Jump)
+        {
+            Launch(agent, loc, enterJump: false);
+            return;
+        }
+
+        if (!Enabled.Value || state != PlayerLocomotion.PLOC_State.Crouch)
         {
             _crouchedFor = 0f;
             SetFlash(agent, false);
@@ -62,17 +79,25 @@ internal static class HighJump
 
         _crouchedFor += Time.deltaTime;
         SetFlash(agent, Ready);
+        _chargedLastFrame = Ready;
         if (!Ready || !Moves.InPlay || !InputMapper.GetButtonDown.Invoke(InputAction.Jump, eFocusState.FPS)) return;
 
+        // Still crouched with the press seen (the game didn't jump on it): start the jump ourselves.
+        Launch(agent, loc, enterJump: true);
+    }
+
+    private static void Launch(PlayerAgent agent, PlayerLocomotion loc, bool enterJump)
+    {
         _crouchedFor = 0f;
+        _chargedLastFrame = false;
         SetFlash(agent, false);
         _launched = true;
-        loc.ChangeState(PlayerLocomotion.PLOC_State.Jump, false);
+        if (enterJump) loc.ChangeState(PlayerLocomotion.PLOC_State.Jump, false);
         // v = sqrt(2gh): straight up to Height under gravity.
         var height = Mathf.Max(0.5f, Height.Value);
         loc.m_verticalVelocity = Vector3.up * Mathf.Sqrt(2f * Physics.gravity.magnitude * height);
         Moves.ResetFallStart(agent, loc);
-        Moves.JumpSway(agent);
+        if (enterJump) Moves.JumpSway(agent);
     }
 
     // A white light blinking at the player while the high jump is charged.
