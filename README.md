@@ -59,7 +59,7 @@ Fall damage counts from where the double jump started.
 
 Stay crouched on the ground until you start to flash (a white light blinking at you, after 1 second),
 then press Jump: you're launched straight up about 10 meters. It's the game's own jump with the upward
-speed raised, and the landing takes no fall damage. Standing up before you jump drops the charge.
+speed raised, and the landing takes no fall damage. Standing up before you jump drops the charge, and a slide never charges it.
 
 ### `[High Jump]`
 

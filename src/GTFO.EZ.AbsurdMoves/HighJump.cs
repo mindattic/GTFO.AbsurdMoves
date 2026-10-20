@@ -70,7 +70,8 @@ internal static class HighJump
             return;
         }
 
-        if (!Enabled.Value || state != PlayerLocomotion.PLOC_State.Crouch)
+        // A slide runs in the Crouch state and outlasts the charge time; it never charges a high jump.
+        if (!Enabled.Value || state != PlayerLocomotion.PLOC_State.Crouch || Slide.Active)
         {
             _crouchedFor = 0f;
             SetFlash(agent, false);

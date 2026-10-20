@@ -8,7 +8,8 @@
 - **Double jump** goes higher: its upward speed is scaled by the new `[Double Jump] Second Jump
   Height Multiplier` (default 1.5), so the second jump clears well above a ground jump.
 - **Bug fix:** the high jump never launched - the game's own jump took the charged press first, so
-  you got a normal-height jump. The charge now carries into that jump.
+  you got a normal-height jump. The charge now carries into that jump. A slide no longer charges it,
+  so Jump at the end of a long slide is a normal jump, not a 10 m launch.
 - **Slide** goes twice as far: *Slide Duration* 1.2 s -> 2.4 s, about 14 m at the default speed. An
   install still on the old 1.2 is moved to 2.4 once; a value you set yourself is kept.
 - Moves in step with the GTFO.EZ family's version number (GTFO.EZ, GTFO.EZ.AbsurdWeapons,
