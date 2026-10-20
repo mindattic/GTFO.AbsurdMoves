@@ -273,8 +273,8 @@ src/GTFO.EZ.AbsurdMoves/
   FireWhileRunning.cs  Lets your guns fire while sprinting
   RunAndStamina.cs     Sprint speed and stamina multipliers on the player datablock
   Sounds.cs            One-shot and looping Wwise sound helpers
-  Shared/              generated from GTFO.EZ's src/GTFO.EZ/Shared by its tools/publish-shared.ps1 -
-                       never edit here: the Insert/Delete toggles, MessageHelper and RemoteEvents
+  Shared/              linked from external/GTFO.EZ.Shared (a git submodule; change it there):
+                       SharedOwner, the Insert/Delete toggles, MessageHelper and RemoteEvents
                        (throw-safe GTFO-API network events, used by bullet time and ground pound)
 package/               Thunderstore manifest, icon (256x256, from logo.png), README and changelog
 logo.png               Full-size logo
