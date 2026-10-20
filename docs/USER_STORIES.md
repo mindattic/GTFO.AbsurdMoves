@@ -66,3 +66,4 @@ _Nothing recorded yet._
 | GAM-T43 | 2026-10-19 | chore | closed | Bump GTFO.EZ.AbsurdMoves to v14.0.0 with the GTFO.EZ family: manifest, changelog (wall running removed, longer slide, higher double jump, high jump fix) and READMEs (user request) | abdebaf |
 | GAM-T44 | 2026-10-19 | docs | closed | Mark everything new as confirmed in play: drop the not-yet-confirmed notes from the READMEs and config text (user confirmed after in-game testing) | 208d397 |
 | GAM-T45 | 2026-10-20 | fix | closed | A loop sound whose Post throws leaked a new CellSoundPlayer and logged a warning every frame it was touched (bullet time): the player is now recycled and the sound given up on (bughunt) | 1e49d20 |
+| GAM-T46 | 2026-10-20 | fix | closed | A slide (Crouch state, 2.4 s) charged the high jump (1 s), so Jump late in a slide launched 10 m straight up - a slide no longer charges it (bughunt; user decision) | 53d629f |
