@@ -37,17 +37,20 @@ internal sealed class LoopSounds : MonoBehaviour
     }
 
     private static readonly Dictionary<string, Loop> loops = new();
+    private static readonly HashSet<string> failed = new();
 
     public LoopSounds(IntPtr ptr) : base(ptr) { }
 
     internal static void Touch(string key, string startEvent, string stopEvent, Vector3 position)
     {
-        if (string.IsNullOrWhiteSpace(startEvent)) return;
+        if (string.IsNullOrWhiteSpace(startEvent) || failed.Contains(startEvent)) return;
+        CellSoundPlayer? created = null;
         try
         {
             if (!loops.TryGetValue(key, out var loop))
             {
-                loop = new Loop { Player = new CellSoundPlayer(position), StopEvent = stopEvent };
+                created = new CellSoundPlayer(position);
+                loop = new Loop { Player = created, StopEvent = stopEvent };
                 loop.Player.Post(startEvent.Trim(), position);
                 loops[key] = loop;
             }
@@ -60,8 +63,10 @@ internal sealed class LoopSounds : MonoBehaviour
         }
         catch (Exception e)
         {
-            Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves couldn't run loop sound '{startEvent}': {e.Message}");
+            // Touched every frame: a sound that can't play is given up on, not retried (and leaked) each frame.
+            if (failed.Add(startEvent)) Plugin.Logger.LogWarning($"GTFO.EZ.AbsurdMoves couldn't run loop sound '{startEvent}': {e.Message}");
             loops.Remove(key);
+            try { created?.Recycle(); } catch { }
         }
     }
 
