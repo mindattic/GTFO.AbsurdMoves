@@ -165,7 +165,7 @@ mainly for ducking out of a homing projectile's path on short notice. Walls stop
 ## Bullet time
 
 Tap Left Alt and the whole game slows down, Max Payne style - you, your teammates, bots, enemies and
-projectiles alike. It eases into slow motion, holds for 5 seconds, then eases back up to full speed.
+projectiles alike. It eases into slow motion over 0.4 s, holds, then eases back up to full speed over 0.8 s - 5 seconds in all.
 Once its cooldown is over, the event log on the left says
 "Bullet time ready". The sound
 drops to a hollow, muffled mix, with a deep boom going in and a heartbeat underneath. It's broadcast,
@@ -177,7 +177,7 @@ so the host slows the enemies for the whole team. Needs the GTFO-API plugin.
 |---|---|---|
 | `Enabled` | true | Turns bullet time on or off. |
 | `Key` | LeftAlt | Starts bullet time as you let go of it. A press with another key in it (Alt+Tab, Alt+Enter) or one that loses the game focus doesn't count, and presses while it's running or cooling down do nothing. |
-| `DurationSeconds` | 5 | How long it lasts, in real seconds. |
+| `DurationSeconds` | 5 | How long it lasts in all, in real seconds, counting the 0.4 s ease in and 0.8 s ease out (so the default holds at full slow motion for 3.8 s). Never shorter than 1.2 s. |
 | `CooldownSeconds` | 10 | Wait after it ends before it can start again. |
 | `TimeScale` | 0.3 | How fast the game runs during bullet time (1 = normal). |
 | `SoundMuffle` | `SOUND_EFFECT_MUFFLE=100, GAME_MENU_MUFFLE=100` | Wwise mix parameters pushed for the hollow sound, restored after. |
