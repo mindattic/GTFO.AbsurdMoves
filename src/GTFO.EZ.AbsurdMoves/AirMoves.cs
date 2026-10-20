@@ -6,75 +6,38 @@ using UnityEngine;
 namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
-/// Mid-air moves on a second press of Jump: next to a wall it starts a wall run along it, anywhere
-/// else it's a classic double jump - the game's own jump started again from your current height,
-/// its upward speed scaled by Second Jump Height Multiplier.
-/// Both work by writing the game's own locomotion velocities while it's in its Jump/Fall state, so the
-/// game moves the player (and syncs it) exactly as it does a normal jump. A small fire loop plays while
-/// wall running.
+/// The double jump: a second press of Jump in the air is a classic double jump - the game's own jump
+/// started again from your current height, so the game moves the player (and syncs it) exactly as it
+/// does a normal jump, its upward speed scaled by Second Jump Height Multiplier. Once per jump.
+/// (Wall running used to share this press; it was removed - the levels have too few long flat walls
+/// for it to be useful.)
 /// </summary>
 internal static class AirMoves
 {
-    internal static ConfigEntry<bool> WallRunEnabled = null!;
-    internal static ConfigEntry<float> WallRunSpeed = null!;
-    internal static ConfigEntry<float> WallRunMaxSeconds = null!;
-    internal static ConfigEntry<float> WallRunReach = null!;
-    internal static ConfigEntry<float> WallRunSinkSpeed = null!;
-    internal static ConfigEntry<float> WallJumpUpSpeed = null!;
-    internal static ConfigEntry<float> WallJumpPushSpeed = null!;
-
     internal static ConfigEntry<bool> DoubleJumpEnabled = null!;
     internal static ConfigEntry<float> SecondJumpHeightMultiplier = null!;
 
-    internal static ConfigEntry<string> BurnLoopSound = null!;
-    internal static ConfigEntry<string> BurnLoopStopSound = null!;
-
     internal static void Bind(ConfigFile config)
     {
-        const string wall = "Wall Running";
-        WallRunEnabled = config.Bind(wall, "Wall Running Enabled", true,
-            "Turns wall running on or off. On: while in the air next to a wall, press Jump a second time to run along " +
-            "the wall in the direction you're looking. Press Jump again to kick off it.");
-        WallRunSpeed = config.Bind(wall, "Wall Run Speed (m/s)", 8f, "How fast you run along the wall.");
-        WallRunMaxSeconds = config.Bind(wall, "Wall Run Max Duration (seconds)", 2.5f, "Longest a single wall run lasts before you drop off.");
-        WallRunReach = config.Bind(wall, "Wall Reach (meters)", 1.2f, "How close a wall has to be to start (and keep) a wall run.");
-        WallRunSinkSpeed = config.Bind(wall, "Wall Run Sink Speed (m/s)", 0.4f, "How fast you slide down the wall while running on it. 0 = level.");
-        WallJumpUpSpeed = config.Bind(wall, "Wall Jump Up Speed (m/s)", 6f, "Upward speed when you jump off a wall.");
-        WallJumpPushSpeed = config.Bind(wall, "Wall Jump Push Speed (m/s)", 5f, "Speed away from the wall when you jump off it.");
-
         const string jump = "Double Jump";
         DoubleJumpEnabled = config.Bind(jump, "Double Jump Enabled", true,
-            "Turns the double jump on or off. On: press Jump a second time in the air (away from a wall) to jump " +
-            "again - a whole new jump, the game's own, from wherever you are. Once per jump; kicking off a wall gives it back.");
+            "Turns the double jump on or off. On: press Jump a second time in the air to jump again - a whole " +
+            "new jump, the game's own, from wherever you are. Once per jump.");
         SecondJumpHeightMultiplier = config.Bind(jump, "Second Jump Height Multiplier", 1.5f,
             "Scales the second jump's upward speed against a jump off the ground. 1 = the same as a ground jump, " +
             "1.5 = half again as fast up (well over twice as high, since height grows with the square of the speed).");
-
-        const string sound = "Air Move Sounds";
-        BurnLoopSound = config.Bind(sound, "Burn Loop Sound", "FLAMERRESIDUALFIRELOOP",
-            "A small burning loop while wall running (a game sound event name). Empty = silent.");
-        BurnLoopStopSound = config.Bind(sound, "Burn Loop Stop Sound", "FLAMERRESIDUALFIRELOOPEND", "Stops the burn loop.");
     }
 
     // A press this soon after leaving the ground is the press that jumped, not a second one.
     private const float SecondPressAfter = 0.1f;
-    private const float WallRegrabDelay = 0.35f;
-    private const float WallStick = 0.5f;
 
     private static float _airborneSince = -1f;
     private static bool _doubleJumpUsed;
-    private static bool _wallRunning;
-    private static float _wallRunUntil;
-    private static float _wallRegrabAt;
-    private static Vector3 _wallNormal;
-    private static Vector3 _wallTangent;
 
     internal static void Reset()
     {
         _airborneSince = -1f;
         _doubleJumpUsed = false;
-        _wallRunning = false;
-        _wallRegrabAt = 0f;
     }
 
     internal static void Tick(PlayerAgent agent, PlayerLocomotion loc)
@@ -83,112 +46,19 @@ internal static class AirMoves
         {
             _airborneSince = -1f;
             _doubleJumpUsed = false;
-            _wallRunning = false;
             return;
         }
         if (_airborneSince < 0f) _airborneSince = Time.time;
-        if (GroundPound.Active)
-        {
-            _wallRunning = false;
-            return;
-        }
+        if (GroundPound.Active || !DoubleJumpEnabled.Value || _doubleJumpUsed) return;
 
         var jumpDown = Moves.InPlay && InputMapper.GetButtonDown.Invoke(InputAction.Jump, eFocusState.FPS);
-        var secondPress = jumpDown && Time.time - _airborneSince > SecondPressAfter;
+        if (!jumpDown || Time.time - _airborneSince <= SecondPressAfter) return;
 
-        if (_wallRunning)
-        {
-            if (secondPress)
-            {
-                WallJump(agent, loc);
-                return;
-            }
-            if (!WallRunEnabled.Value || Time.time > _wallRunUntil || !FindWall(agent, out var normal))
-            {
-                _wallRunning = false;
-                _wallRegrabAt = Time.time + WallRegrabDelay;
-            }
-            else
-            {
-                _wallNormal = normal;
-                WallRun(agent, loc);
-                return;
-            }
-        }
-
-        if (secondPress)
-        {
-            if (WallRunEnabled.Value && Time.time >= _wallRegrabAt && FindWall(agent, out var normal))
-            {
-                _wallNormal = normal;
-                _wallTangent = Vector3.zero;
-                _wallRunning = true;
-                _wallRunUntil = Time.time + WallRunMaxSeconds.Value;
-                WallRun(agent, loc);
-                return;
-            }
-            if (DoubleJumpEnabled.Value && !_doubleJumpUsed)
-            {
-                // A whole new jump from where you are: the game's own jump state re-entered (so it
-                // moves and syncs as a ground jump does), then its upward speed scaled so the second
-                // jump goes higher than the first.
-                _doubleJumpUsed = true;
-                Moves.ResetFallStart(agent, loc);
-                loc.ChangeState(PlayerLocomotion.PLOC_State.Jump, false);
-                loc.m_verticalVelocity *= Mathf.Max(0.1f, SecondJumpHeightMultiplier.Value);
-            }
-        }
-    }
-
-    private static void WallRun(PlayerAgent agent, PlayerLocomotion loc)
-    {
-        var look = Moves.FlatForward(agent);
-        var tangent = Vector3.ProjectOnPlane(look, _wallNormal);
-        tangent.y = 0f;
-        // Looking straight at the wall leaves no direction along it: keep going the way we were.
-        if (tangent.sqrMagnitude > 0.01f) _wallTangent = tangent.normalized;
-        else if (_wallTangent == Vector3.zero) _wallTangent = Vector3.Cross(_wallNormal, Vector3.up).normalized;
-
-        var speed = WallRunSpeed.Value;
-        loc.m_horizontalVelocity = _wallTangent * speed - _wallNormal * WallStick;
-        loc.m_verticalVelocity = Vector3.down * Mathf.Max(0f, WallRunSinkSpeed.Value);
-        Moves.AllowAirSpeed(loc, speed);
+        // A whole new jump from where you are: the game's own jump state re-entered (so it moves and
+        // syncs as a ground jump does), then its upward speed scaled so the second jump goes higher.
+        _doubleJumpUsed = true;
         Moves.ResetFallStart(agent, loc);
-        Burn(agent);
-    }
-
-    private static void WallJump(PlayerAgent agent, PlayerLocomotion loc)
-    {
-        _wallRunning = false;
-        _wallRegrabAt = Time.time + WallRegrabDelay;
-        _doubleJumpUsed = false;
-
-        var push = _wallNormal * WallJumpPushSpeed.Value + _wallTangent * WallRunSpeed.Value * 0.5f;
-        loc.m_horizontalVelocity = push;
-        loc.m_verticalVelocity = Vector3.up * WallJumpUpSpeed.Value;
-        Moves.AllowAirSpeed(loc, push.magnitude);
-        Moves.ResetFallStart(agent, loc);
-        Moves.JumpSway(agent);
-    }
-
-    private static void Burn(PlayerAgent agent) =>
-        LoopSounds.Touch("air-burn", BurnLoopSound.Value, BurnLoopStopSound.Value, agent.Position);
-
-    // The closest wall beside or ahead of you, within reach. Floors, ceilings and slopes don't count.
-    private static bool FindWall(PlayerAgent agent, out Vector3 normal)
-    {
-        normal = Vector3.zero;
-        var forward = Moves.FlatForward(agent);
-        var right = Vector3.Cross(Vector3.up, forward);
-        var origin = agent.Position + Vector3.up;
-        var best = float.MaxValue;
-        foreach (var dir in new[] { right, -right, (forward + right).normalized, (forward - right).normalized, forward })
-        {
-            if (!Physics.Raycast(origin, dir, out var hit, WallRunReach.Value, LayerManager.MASK_WORLD)) continue;
-            if (Mathf.Abs(hit.normal.y) > 0.35f || hit.distance >= best) continue;
-            best = hit.distance;
-            normal = new Vector3(hit.normal.x, 0f, hit.normal.z).normalized;
-        }
-        return best < float.MaxValue;
+        loc.ChangeState(PlayerLocomotion.PLOC_State.Jump, false);
+        loc.m_verticalVelocity *= Mathf.Max(0.1f, SecondJumpHeightMultiplier.Value);
     }
 }

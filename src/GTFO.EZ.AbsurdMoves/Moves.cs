@@ -21,19 +21,12 @@ internal static class Moves
         return forward.sqrMagnitude > 0.0001f ? forward.normalized : Vector3.forward;
     }
 
-    // Fall damage is measured from where the fall started, so a double jump or wall run moves that start
-    // along with you: you only take damage for what you drop after it ends.
+    // Fall damage is measured from where the fall started, so a double jump or high jump moves that
+    // start along with you: you only take damage for what you drop after it ends.
     internal static void ResetFallStart(PlayerAgent agent, PlayerLocomotion loc)
     {
         var fall = loc.CurrentState?.TryCast<PLOC_Fall>();
         if (fall != null) fall.m_startPos = agent.Position;
-    }
-
-    // The fall state caps air speed at the speed you left the ground with; raise it to fit ours.
-    internal static void AllowAirSpeed(PlayerLocomotion loc, float speed)
-    {
-        var fall = loc.CurrentState?.TryCast<PLOC_Fall>();
-        if (fall != null && fall.m_maxHorizontalVelocity < speed) fall.m_maxHorizontalVelocity = speed;
     }
 
     // The held gun's own jump bob, as a normal jump plays it.
