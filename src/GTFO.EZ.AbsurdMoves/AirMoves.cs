@@ -7,7 +7,8 @@ namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
 /// Mid-air moves on a second press of Jump: next to a wall it starts a wall run along it, anywhere
-/// else it's a classic double jump - the game's own jump started again from your current height.
+/// else it's a classic double jump - the game's own jump started again from your current height,
+/// its upward speed scaled by Second Jump Height Multiplier.
 /// Both work by writing the game's own locomotion velocities while it's in its Jump/Fall state, so the
 /// game moves the player (and syncs it) exactly as it does a normal jump. A small fire loop plays while
 /// wall running.
@@ -23,6 +24,7 @@ internal static class AirMoves
     internal static ConfigEntry<float> WallJumpPushSpeed = null!;
 
     internal static ConfigEntry<bool> DoubleJumpEnabled = null!;
+    internal static ConfigEntry<float> SecondJumpHeightMultiplier = null!;
 
     internal static ConfigEntry<string> BurnLoopSound = null!;
     internal static ConfigEntry<string> BurnLoopStopSound = null!;
@@ -44,6 +46,9 @@ internal static class AirMoves
         DoubleJumpEnabled = config.Bind(jump, "Double Jump Enabled", true,
             "Turns the double jump on or off. On: press Jump a second time in the air (away from a wall) to jump " +
             "again - a whole new jump, the game's own, from wherever you are. Once per jump; kicking off a wall gives it back.");
+        SecondJumpHeightMultiplier = config.Bind(jump, "Second Jump Height Multiplier", 1.5f,
+            "Scales the second jump's upward speed against a jump off the ground. 1 = the same as a ground jump, " +
+            "1.5 = half again as fast up (well over twice as high, since height grows with the square of the speed).");
 
         const string sound = "Air Move Sounds";
         BurnLoopSound = config.Bind(sound, "Burn Loop Sound", "FLAMERRESIDUALFIRELOOP",
@@ -124,11 +129,13 @@ internal static class AirMoves
             }
             if (DoubleJumpEnabled.Value && !_doubleJumpUsed)
             {
-                // A whole new jump from where you are: the game's own jump state re-entered, so it's
-                // exactly a ground jump's height and arc (holding Jump included), started mid-air.
+                // A whole new jump from where you are: the game's own jump state re-entered (so it
+                // moves and syncs as a ground jump does), then its upward speed scaled so the second
+                // jump goes higher than the first.
                 _doubleJumpUsed = true;
                 Moves.ResetFallStart(agent, loc);
                 loc.ChangeState(PlayerLocomotion.PLOC_State.Jump, false);
+                loc.m_verticalVelocity *= Mathf.Max(0.1f, SecondJumpHeightMultiplier.Value);
             }
         }
     }

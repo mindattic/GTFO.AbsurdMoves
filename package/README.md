@@ -62,15 +62,16 @@ land. A small burning sound loops while you run.
 ## Double jump
 
 Press Jump a second time in the air, away from a wall, to jump again: a classic double jump, once per
-jump - the game's own jump started again from your current height, as high as a jump off the ground
-(hold Jump for the full height). Fall damage counts from where the
-double jump started.
+jump - the game's own jump started again from your current height, its upward speed scaled by
+`Second Jump Height Multiplier` (1.5 by default, so it goes well above a jump off the ground).
+Fall damage counts from where the double jump started.
 
 ### `[Double Jump]`
 
 | Setting | Default | What it does |
 |---|---|---|
 | `Double Jump Enabled` | true | Turns the double jump on or off. |
+| `Second Jump Height Multiplier` | 1.5 | Scales the second jump's upward speed against a ground jump (1 = the same; height grows with the square). |
 
 ### `[Air Move Sounds]`
 

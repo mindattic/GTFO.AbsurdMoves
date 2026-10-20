@@ -15,7 +15,8 @@
 - Initial release. Every move has its own on/off switch in the config.
 - **Wall running**: in the air next to a wall, press Jump again to run along it; Jump again kicks off.
 - **Double jump**: press Jump again in the air for a whole new jump from where you are - the
-  game's own jump, no glide or float.
+  game's own jump, no glide or float - its upward speed scaled by `[Double Jump] Second Jump Height
+  Multiplier` (default 1.5) so the second jump goes higher than the first.
   A small burning loop plays while wall running.
 - **High jump**: stay crouched on the ground until you flash, then press Jump to launch about 10 m
   straight up, with no fall damage on the landing.
