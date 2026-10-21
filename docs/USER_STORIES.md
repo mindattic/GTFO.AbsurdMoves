@@ -6,7 +6,7 @@ layer: stories
 status: living
 updated: 2026-10-18
 ---
-<!-- GENERATED from MindAttic.Workflow/data/workflow.db by `workflow db render`. Do not edit: this file is rewritten from the database; change stories and tickets with the workflow CLI. -->
+<!-- GENERATED from MindAttic.Tickets/data/Tickets.db by `tickets db render`. Do not edit: this file is rewritten from the database; change stories and tickets with the tickets CLI. -->
 
 # GTFO.EZ.AbsurdMoves — User Stories
 > ✅ done (shipped & tested) · 🟡 partial · ⬜ planned. Every ✅ cites the test.
@@ -67,3 +67,4 @@ _Nothing recorded yet._
 | GAM-T44 | 2026-10-19 | docs | closed | Mark everything new as confirmed in play: drop the not-yet-confirmed notes from the READMEs and config text (user confirmed after in-game testing) | 208d397 |
 | GAM-T45 | 2026-10-20 | fix | closed | A loop sound whose Post throws leaked a new CellSoundPlayer and logged a warning every frame it was touched (bullet time): the player is now recycled and the sound given up on (bughunt) | 1e49d20 |
 | GAM-T46 | 2026-10-20 | fix | closed | A slide (Crouch state, 2.4 s) charged the high jump (1 s), so Jump late in a slide launched 10 m straight up - a slide no longer charges it (bughunt; user decision) | 53d629f |
+| GAM-T47 | 2026-10-20 | docs | open | Publish GTFO.EZ.AbsurdMoves docs to GitHub Pages via the shared Toolkit DocFX pipeline: run adopt-docs-site.ps1 (README.md as home page, docs/*.md as articles, API reference only where the code builds in CI), enable Pages with build_type=workflow, set the repo homepage URL, retire tools/build-readme.ps1 and README.htm, confirm the docs Actions run is green and https://mindattic.github.io/GTFO.EZ.AbsurdMoves/ returns 200. Depends on MAT-T8. | — |
