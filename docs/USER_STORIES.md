@@ -57,7 +57,7 @@ _Nothing recorded yet._
 | GAM-T34 | 2026-10-18 | feature | closed | Bullet time slows enemy projectiles too (ProjectileTargeting speed, lifetime extended) while players and bots keep full speed, and the event log says 'Bullet time ready' when the cooldown ends (user request) | — |
 | GAM-T35 | 2026-10-19 | feature | closed | Bullet time slows the whole game clock (Time.timeScale, eased in and out) so everyone and everything is affected, Max Payne style; replaces per-enemy and per-projectile slowing; EnemySpeed becomes TimeScale (user request) | — |
 | GAM-T36 | 2026-10-19 | chore | closed | Align the GTFO.EZ family on one version, v13 (user request), documented in the READMEs and changelog; README review corrections | manifest + Plugin.VERSION 13.0.0 |
-| GAM-T37 | 2026-10-19 | chore | open | Convert tracked source files to LF line endings via .gitattributes, per HOUSE-LAW-13 (low priority) | — |
+| GAM-T37 | 2026-10-19 | chore | wont-do | Convert tracked source files to LF line endings via .gitattributes, per HOUSE-LAW-13 (low priority) | — |
 | GAM-T38 | 2026-10-19 | docs | closed | READMEs said bullet time holds for 5 s; DurationSeconds (5) includes the 0.4 s ease in and 0.8 s ease out (bughunt for v14; uncommitted) | 31ccdc7 |
 | GAM-T39 | 2026-10-19 | chore | closed | Remove wall running (too few long flat walls in GTFO's levels to be useful; user request) - the double jump now works anywhere in the air | AirMoves.cs |
 | GAM-T40 | 2026-10-19 | feature | closed | Slide goes twice as far for cool factor (user request): Slide Duration 1.2 -> 2.4 s (~14 m), with a one-time config migration for installs on the old default | Slide.cs, ConfigMigrations.cs |
@@ -70,3 +70,4 @@ _Nothing recorded yet._
 | GAM-T47 | 2026-10-20 | docs | open | Publish GTFO.EZ.AbsurdMoves docs to GitHub Pages via the shared Toolkit DocFX pipeline: run adopt-docs-site.ps1 (README.md as home page, docs/*.md as articles, API reference only where the code builds in CI), enable Pages with build_type=workflow, set the repo homepage URL, retire tools/build-readme.ps1 and README.htm, confirm the docs Actions run is green and https://mindattic.github.io/GTFO.EZ.AbsurdMoves/ returns 200. Depends on MAT-T8. | — |
 | GAM-T48 | 2026-10-20 | chore | open | Bug hunt: run an exhaustive /bughunt over the whole repo and fix every real bug found (each fix under its own fix ticket), then hunt again; close this only when a full pass finds nothing | user request 2026-10-20: approved repo sweep gap-fill (resets the untracked v14 bughunt partial) |
 | GAM-T49 | 2026-10-21 | chore | closed | Add .prose; Update USER_STORIES.md | — |
+| GAM-T50 | 2026-10-22 | docs | closed | Update USER_STORIES.md | — |
