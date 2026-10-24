@@ -1,6 +1,6 @@
 # Changelog
 
-## v14
+## v15
 
 - **Absurd Moves is a toggle, off at the start of every level.** Press **End** to turn it on; every
   move below starts working. Press it again to turn it off: whatever's in progress is cancelled right
@@ -11,6 +11,11 @@
   mod - Run Speed only ever stacked a second multiplier on top of GTFO.EZ's own `[Movement] Run Speed
   Multiplier`, and Stamina's logic moved there as a new `[Stamina] Stamina Multiplier`, so both work
   with or without this mod installed.
+- Moves in step with the GTFO.EZ family's version number (GTFO.EZ, GTFO.EZ.AbsurdWeapons,
+  GTFO.EZ.AbsurdMoves and GTFO.EZ.AbsurdItems share one).
+
+## v14
+
 - **Removed: wall running.** GTFO's levels have too few long, flat walls for it to be useful. Its
   `[Wall Running]` and `[Air Move Sounds]` settings stay in an existing `.cfg` as leftover lines that
   do nothing; the double jump works anywhere in the air now, wall or no wall.
