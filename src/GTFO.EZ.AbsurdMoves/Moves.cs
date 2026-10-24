@@ -60,12 +60,15 @@ internal static class Moves
             if (!agent.Alive || GameStateManager.CurrentStateName != eGameStateName.InLevel)
             {
                 ResetAll(__instance);
+                MovesToggle.ResetForLevel();
                 return;
             }
 
             if (__instance.Pointer != _lastLoc || Time.time - _lastTick > StaleAfter) ResetAll(__instance);
             _lastLoc = __instance.Pointer;
             _lastTick = Time.time;
+
+            MovesToggle.Tick(__instance);
 
             GroundPound.Tick(agent, __instance);
             Mantle.Tick(agent, __instance);

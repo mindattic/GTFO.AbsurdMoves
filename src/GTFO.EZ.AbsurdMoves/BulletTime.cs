@@ -85,6 +85,13 @@ internal sealed class BulletTime : MonoBehaviour
 
     private static bool Active => startedAt >= 0f;
 
+    // The Absurd Moves toggle turning off while bullet time is running: snaps the clock back to
+    // normal right away instead of leaving the game slowed with the toggle supposedly off.
+    internal static void ForceEnd()
+    {
+        if (Active) End();
+    }
+
     private void Update()
     {
         try
@@ -127,7 +134,7 @@ internal sealed class BulletTime : MonoBehaviour
 
     private static bool KeyTapped()
     {
-        if (!featureOn.Value || FocusStateManager.CurrentState != eFocusState.FPS || !Application.isFocused)
+        if (!MovesToggle.Active || !featureOn.Value || FocusStateManager.CurrentState != eFocusState.FPS || !Application.isFocused)
         {
             armed = false;
             return false;

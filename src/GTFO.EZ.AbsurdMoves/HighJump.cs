@@ -64,14 +64,14 @@ internal static class HighJump
 
         // The usual path: Jump pressed while charged, and the game's own jump already took the press
         // and left the crouch this frame. Raise that jump's upward speed to the high jump's.
-        if (Enabled.Value && wasCharged && state == PlayerLocomotion.PLOC_State.Jump)
+        if (MovesToggle.Active && Enabled.Value && wasCharged && state == PlayerLocomotion.PLOC_State.Jump)
         {
             Launch(agent, loc, enterJump: false);
             return;
         }
 
         // A slide runs in the Crouch state and outlasts the charge time; it never charges a high jump.
-        if (!Enabled.Value || state != PlayerLocomotion.PLOC_State.Crouch || Slide.Active)
+        if (!MovesToggle.Active || !Enabled.Value || state != PlayerLocomotion.PLOC_State.Crouch || Slide.Active)
         {
             _crouchedFor = 0f;
             SetFlash(agent, false);

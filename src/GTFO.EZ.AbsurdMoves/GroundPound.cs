@@ -141,7 +141,7 @@ internal static class GroundPound
             return;
         }
 
-        if (!Enabled.Value || Mantle.Active || !Moves.InAir(loc) || !Moves.InPlay) return;
+        if (!MovesToggle.Active || !Enabled.Value || Mantle.Active || !Moves.InAir(loc) || !Moves.InPlay) return;
         if (!InputMapper.GetButtonDown.Invoke(InputAction.Crouch, eFocusState.FPS)) return;
         if (Physics.Raycast(agent.Position + Vector3.up * 0.2f, Vector3.down, MinHeight.Value + 0.2f, LayerManager.MASK_WORLD)) return;
 

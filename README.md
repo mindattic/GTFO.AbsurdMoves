@@ -8,7 +8,7 @@ and underscores, so they can't contain a period.)*
 GTFO.EZ.AbsurdMoves is a GTFO.EZ companion mod, built on [GTFO.EZ](https://github.com/mindattic/GTFO.EZ)'s core: it carries GTFO.EZ's shared code (the Insert/Delete infinite ammo and health toggles, and MessageHelper, which puts on-screen messages wherever they fit) and works with or without GTFO.EZ installed. It was called GTFO.AbsurdMoves before its first release.
 
 A BepInEx plugin for GTFO that adds new player moves: double jump, high
-jump, ground pound, mantling, slide, dodge and bullet time, plus firing on the move and a faster sprint with more stamina.
+jump, ground pound, mantling, slide, dodge and bullet time, plus firing on the move.
 No game files are shipped or edited.
 
 **Every move has its own on/off switch, and its numbers can be retuned,** in the config file
@@ -21,6 +21,18 @@ The file's first entry switches the whole mod off, for a mod manager profile tha
 | Setting | Default | What it does |
 |---|---|---|
 | `Enabled` | true | Turn the whole mod on or off. When false, the mod loads nothing: no patches, no moves, no hotkeys. Takes effect on restart. |
+
+## Absurd Moves toggle
+
+Every move below is off at the start of a level. **Press End** to turn Absurd Moves on; press it
+again to turn it off. Turning it off cancels whatever's in progress right away - an in-flight dodge
+stops, a running bullet time snaps back to normal speed, a pound/mantle/slide/charged high jump
+resets - and none of them start again until End is pressed again. The state (and whichever move was
+cancelled) is announced on-screen and in the console.
+
+| Setting | Default | What it does |
+|---|---|---|
+| `[Moves Toggle] ToggleAbsurdMovesKey` | End | Switches every Absurd Move on or off, all at once. Off at the start of every level. |
 
 ## The moves
 
@@ -36,10 +48,9 @@ The file's first entry switches the whole mod off, for a mod manager profile tha
 | [Infinite ammo / health](#infinite-ammo-and-health) | Press **Insert** / **Delete** | Toggles, off at the start |
 | [Fire mid-air](#fire-on-the-move) | Shoot while jumping or falling | `[Fire On The Move] Fire Mid-Air Enabled` |
 | [Fire while running](#fire-on-the-move) | Shoot while sprinting | `[Fire On The Move] Fire While Running Enabled` |
-| [Faster sprint](#run-speed-and-stamina) | Always on | `[Run Speed] Run Speed Enabled` |
-| [More stamina](#run-speed-and-stamina) | Always on | `[Stamina] Stamina Enabled` |
 
-Jump and Crouch are the game's own bindings, so they follow whatever you've rebound them to.
+Jump and Crouch are the game's own bindings, so they follow whatever you've rebound them to. Every
+move above (not Insert/Delete, which are their own toggle) also needs Absurd Moves switched on.
 
 ## Double jump
 
@@ -178,22 +189,6 @@ gun is never lowered in the first place.
 | `Fire Mid-Air Enabled` | true | Fire while jumping or falling. |
 | `Fire While Running Enabled` | true | Fire while sprinting. |
 
-## Run speed and stamina
-
-A faster top sprint, and stamina that goes further: every action's stamina cost (sprinting, jumping,
-walking, crouching, strafing) is divided by the multiplier and stamina regenerates that much faster.
-Both stack with GTFO.EZ's own movement and stamina settings if it's installed. These change the
-game's player data as it loads, so changes take effect on restart.
-
-### `[Run Speed]` and `[Stamina]`
-
-| Setting | Default | What it does |
-|---|---|---|
-| `Run Speed Enabled` | true | Turns the faster sprint on or off. |
-| `Max Run Speed Multiplier` | 1.25 | Multiplies top sprint speed. |
-| `Stamina Enabled` | true | Turns the extra stamina on or off. |
-| `Stamina Multiplier` | 1.5 | Divides stamina costs and multiplies stamina regen. |
-
 ## Infinite ammo and health
 
 **Insert** toggles infinite ammo (every gun and tool stays full, no reloads) and **Delete** infinite
@@ -207,6 +202,10 @@ twice.
 - **GTFO.EZ** used to have the dodge (as its dash), and **GTFO.EZ.AbsurdWeapons** used to have bullet
   time. Both moved here. Running an older build of either alongside this mod gives you two of the
   same move: switch one of them off in its config.
+- **Faster sprint and more stamina** used to live here (`[Run Speed]`/`[Stamina]`); both moved to
+  **GTFO.EZ** - its own `[Movement] Run Speed Multiplier` already did the sprint side (this mod's
+  copy only stacked another multiplier on top of it), and its new `[Stamina] Stamina Multiplier`
+  now covers the stamina side too, so you get both with or without this mod installed.
 - Double jump, ground pound, mantling, slide and fire on the move are built on the game's own
   movement and weapon code and confirmed in play. If one misbehaves, switch it off and the rest
   keep working.
@@ -238,6 +237,7 @@ Needs the .NET 6 SDK and a GTFO profile with BepInEx and GTFO-API installed (Bep
 src/GTFO.EZ.AbsurdMoves/
   Plugin.cs            BepInEx entry point: binds each move's config, applies Harmony patches
   Moves.cs             Per-frame driver for the local player's movement, and shared helpers
+  MovesToggle.cs       End: switches every move on/off, off at the start of every level
   AirMoves.cs          Double jump
   ConfigMigrations.cs  One-time moves of a changed default onto configs still on the old one
   GroundPound.cs       Ground pound and its shockwave (host-side enemy pushes)
@@ -247,7 +247,6 @@ src/GTFO.EZ.AbsurdMoves/
   BulletTime.cs        Left Alt: slows the whole game clock (Time.timeScale, eased in and out) with a muffled Wwise mix
   FireMidAir.cs        Lets your guns fire in the air
   FireWhileRunning.cs  Lets your guns fire while sprinting
-  RunAndStamina.cs     Sprint speed and stamina multipliers on the player datablock
   Sounds.cs            One-shot and looping Wwise sound helpers
   Shared/              linked from external/GTFO.EZ.Shared (a git submodule; change it there):
                        SharedOwner, the Insert/Delete toggles, MessageHelper and RemoteEvents

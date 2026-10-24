@@ -56,7 +56,7 @@ internal static class Slide
 
         if (!_sliding)
         {
-            if (!Enabled.Value || !wasRunning || state != PlayerLocomotion.PLOC_State.Crouch || Seconds.Value <= 0f) return;
+            if (!MovesToggle.Active || !Enabled.Value || !wasRunning || state != PlayerLocomotion.PLOC_State.Crouch || Seconds.Value <= 0f) return;
 
             var velocity = loc.HorizontalVelocity;
             velocity.y = 0f;

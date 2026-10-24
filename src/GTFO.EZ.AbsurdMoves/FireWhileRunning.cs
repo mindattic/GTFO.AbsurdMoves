@@ -25,7 +25,7 @@ internal static class FireWhileRunning
     private static void Prefix(BulletWeaponArchetype __instance, out bool __state)
     {
         __state = false;
-        if (!Enabled.Value) return;
+        if (!MovesToggle.Active || !Enabled.Value) return;
         var loc = FireGate.LocalLocomotion(__instance);
         if (loc == null || !loc.IsRunning) return;
         __state = true;
@@ -60,7 +60,7 @@ internal static class FireWhileRunningPose
     {
         try
         {
-            if (!FireWhileRunning.Enabled.Value) return;
+            if (!MovesToggle.Active || !FireWhileRunning.Enabled.Value) return;
             var owner = __instance.m_owner;
             if (owner == null || !owner.IsLocallyOwned || owner.Owner == null || owner.Owner.IsBot) return;
             var loc = owner.Locomotion;

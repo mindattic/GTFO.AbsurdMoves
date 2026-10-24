@@ -31,13 +31,13 @@ public class Plugin : BasePlugin
             return;
         }
 
+        MovesToggle.Bind(Config);
         Dodge.Bind(Config);
         BulletTime.Bind(Config);
         AirMoves.Bind(Config);
         Slide.Bind(Config);
         FireMidAir.Bind(Config);
         FireWhileRunning.Bind(Config);
-        RunAndStamina.Bind(Config);
         GroundPound.Bind(Config);
         Mantle.Bind(Config);
         HighJump.Bind(Config);

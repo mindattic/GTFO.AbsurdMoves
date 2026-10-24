@@ -2,6 +2,15 @@
 
 ## v14
 
+- **Absurd Moves is a toggle, off at the start of every level.** Press **End** to turn it on; every
+  move below starts working. Press it again to turn it off: whatever's in progress is cancelled right
+  away (an in-flight dodge stops, a running bullet time snaps back to normal speed, a pound/mantle/
+  slide/charged high jump resets), and none of them start again until End is pressed again. The state
+  is announced on-screen and in the console.
+- **Faster sprint and more stamina moved to GTFO.EZ.** `[Run Speed]`/`[Stamina]` are gone from this
+  mod - Run Speed only ever stacked a second multiplier on top of GTFO.EZ's own `[Movement] Run Speed
+  Multiplier`, and Stamina's logic moved there as a new `[Stamina] Stamina Multiplier`, so both work
+  with or without this mod installed.
 - **Removed: wall running.** GTFO's levels have too few long, flat walls for it to be useful. Its
   `[Wall Running]` and `[Air Move Sounds]` settings stay in an existing `.cfg` as leftover lines that
   do nothing; the double jump works anywhere in the air now, wall or no wall.

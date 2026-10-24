@@ -72,3 +72,5 @@ _Nothing recorded yet._
 | GAM-T49 | 2026-10-21 | chore | closed | Add .prose; Update USER_STORIES.md | — |
 | GAM-T50 | 2026-10-22 | docs | closed | Update USER_STORIES.md | — |
 | GAM-T51 | 2026-10-24 | docs | closed | Update USER_STORIES.md | — |
+| GAM-T52 | 2026-10-24 | feature | closed | End key toggles Absurd Moves on/off: off at run start, on lets the dodge/bullet time/pound/mantle/double jump/slide/high jump work, off again cancels whatever's in progress | MovesToggle.cs |
+| GAM-T53 | 2026-10-24 | chore | closed | Remove RunAndStamina.cs (Run Speed/Stamina multipliers): Run Speed already duplicated GTFO.EZ's own setting, and Stamina moves there too as a new GTFO.EZ setting | folded into GAM-T52's commit (RunAndStamina.cs removed alongside the End toggle, since both touched the same Plugin.cs lines) |

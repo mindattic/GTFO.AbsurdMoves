@@ -49,7 +49,7 @@ internal static class AirMoves
             return;
         }
         if (_airborneSince < 0f) _airborneSince = Time.time;
-        if (GroundPound.Active || !DoubleJumpEnabled.Value || _doubleJumpUsed) return;
+        if (!MovesToggle.Active || GroundPound.Active || !DoubleJumpEnabled.Value || _doubleJumpUsed) return;
 
         var jumpDown = Moves.InPlay && InputMapper.GetButtonDown.Invoke(InputAction.Jump, eFocusState.FPS);
         if (!jumpDown || Time.time - _airborneSince <= SecondPressAfter) return;

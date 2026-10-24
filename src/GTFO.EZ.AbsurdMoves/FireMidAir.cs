@@ -27,7 +27,7 @@ internal static class FireMidAir
     private static void Prefix(BulletWeaponArchetype __instance, out byte __state)
     {
         __state = Untouched;
-        if (!Enabled.Value) return;
+        if (!MovesToggle.Active || !Enabled.Value) return;
         var loc = FireGate.LocalLocomotion(__instance);
         if (loc == null || !Moves.InAir(loc)) return;
         __state = (byte)loc.m_currentStateEnum;

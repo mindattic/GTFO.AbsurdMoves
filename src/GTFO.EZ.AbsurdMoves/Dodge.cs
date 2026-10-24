@@ -69,7 +69,7 @@ internal static class DodgeHotkey_Update_Patch
 
         DodgeRunner.Tick();
 
-        if (!Dodge.Enabled.Value || !InPlay) return;
+        if (!MovesToggle.Active || !Dodge.Enabled.Value || !InPlay) return;
 
         for (var i = 0; i < DirectionKeys.Length; i++)
         {
@@ -96,6 +96,9 @@ internal static class DodgeRunner
     private static PlayerAgent? _player;
     private static Vector3 _direction;
     private static float _timeLeft;
+
+    // Stops an in-flight dodge right where it is - the Absurd Moves toggle turning off.
+    internal static void Cancel() => _player = null;
 
     // local: x = right, y = forward, relative to where you're looking (flattened to the ground).
     internal static void TryStart(Vector2 local)

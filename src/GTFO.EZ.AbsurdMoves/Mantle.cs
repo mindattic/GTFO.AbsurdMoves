@@ -56,7 +56,7 @@ internal static class Mantle
             return;
         }
 
-        if (!Enabled.Value || Seconds.Value <= 0f || GroundPound.Active || !Moves.InPlay || !Moves.InAir(loc)) return;
+        if (!MovesToggle.Active || !Enabled.Value || Seconds.Value <= 0f || GroundPound.Active || !Moves.InPlay || !Moves.InAir(loc)) return;
         if (InputMapper.GetAxis.Invoke(InputAction.MoveVertical, eFocusState.FPS) < 0.5f) return;
         if (!FindLedge(agent, out var top, out var forward)) return;
 
