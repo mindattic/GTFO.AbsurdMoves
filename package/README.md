@@ -22,15 +22,15 @@ The file's first entry switches the whole mod off, for a mod manager profile tha
 
 ## Absurd Moves toggle
 
-Every move below is off at the start of a level. **Press End** to turn Absurd Moves on; press it
+Every move below is off at the start of a level. **Press Home** to turn Absurd Moves on; press it
 again to turn it off. Turning it off cancels whatever's in progress right away - an in-flight dodge
 stops, a running bullet time snaps back to normal speed, a pound/mantle/slide/charged high jump
-resets - and none of them start again until End is pressed again. The state (and whichever move was
+resets - and none of them start again until Home is pressed again. The state (and whichever move was
 cancelled) is announced on-screen and in the console.
 
 | Setting | Default | What it does |
 |---|---|---|
-| `[Moves Toggle] ToggleAbsurdMovesKey` | End | Switches every Absurd Move on or off, all at once. Off at the start of every level. |
+| `[Moves Toggle] ToggleAbsurdMovesKey` | Home | Switches every Absurd Move on or off, all at once. Off at the start of every level. |
 
 ## The moves
 
@@ -191,9 +191,9 @@ gun is never lowered in the first place.
 
 **Insert** toggles infinite health (no damage to you; bots and teammates are unaffected) and
 **Delete** infinite ammo (every gun and tool stays full, no reloads), each announced in the event
-log and always in the console too. Both start off. They're the same two keys every GTFO.* mod has,
-from one shared copy of the code written in GTFO.EZ; with several of the mods installed, only one
-answers, so a press never toggles
+log and always in the console too. Both start off. They're the same two keys GTFO.EZ, its Absurd
+companions and GTFO.CrashTestDummies all have, from one shared copy of the code written in GTFO.EZ;
+with several of the mods installed, only one answers, so a press never toggles
 twice.
 
 ## Compatibility
@@ -225,7 +225,7 @@ Needs the .NET 6 SDK and a GTFO profile with BepInEx and GTFO-API installed (Bep
 src/GTFO.EZ.AbsurdMoves/
   Plugin.cs            BepInEx entry point: binds each move's config, applies Harmony patches
   Moves.cs             Per-frame driver for the local player's movement, and shared helpers
-  MovesToggle.cs       End: switches every move on/off, off at the start of every level
+  MovesToggle.cs       Home: switches every move on/off, off at the start of every level
   AirMoves.cs          Double jump
   ConfigMigrations.cs  One-time moves of a changed default onto configs still on the old one
   GroundPound.cs       Ground pound and its shockwave (host-side enemy pushes)

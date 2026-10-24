@@ -1,5 +1,15 @@
 # Changelog
 
+## v16
+
+- **The Absurd Moves toggle moved from End to Home.** GTFO.EZ.AbsurdWeapons' own toggle moves the
+  other way, onto End.
+- **Insert and Delete swapped: Insert is now infinite health, Delete is now infinite ammo.** Both
+  also always announce in the console now, not just the event log. Shared code
+  (`GTFO.EZ.Shared`), so GTFO.EZ, its Absurd companions and GTFO.CrashTestDummies all pick it up.
+- Moves in step with the GTFO.EZ family's version number (GTFO.EZ, GTFO.EZ.AbsurdWeapons,
+  GTFO.EZ.AbsurdMoves and GTFO.EZ.AbsurdItems share one).
+
 ## v15
 
 - **Absurd Moves is a toggle, off at the start of every level.** Press **End** to turn it on; every
@@ -11,9 +21,6 @@
   mod - Run Speed only ever stacked a second multiplier on top of GTFO.EZ's own `[Movement] Run Speed
   Multiplier`, and Stamina's logic moved there as a new `[Stamina] Stamina Multiplier`, so both work
   with or without this mod installed.
-- **Insert and Delete swapped: Insert is now infinite health, Delete is now infinite ammo.** Both
-  also always announce in the console now, not just the event log. Shared code
-  (`GTFO.EZ.Shared`), so every GTFO.* mod picks it up.
 - Moves in step with the GTFO.EZ family's version number (GTFO.EZ, GTFO.EZ.AbsurdWeapons,
   GTFO.EZ.AbsurdMoves and GTFO.EZ.AbsurdItems share one).
 

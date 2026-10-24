@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GTFO.EZ.AbsurdMoves;
 
 /// <summary>
-/// Absurd Moves as a whole is a toggle (<see cref="key"/>, End by default), off at the start of
+/// Absurd Moves as a whole is a toggle (<see cref="key"/>, Home by default), off at the start of
 /// every level. The first press turns it on, so the dodge, bullet time, fire mid-air/while running,
 /// ground pound, mantle, double jump, slide and high jump all start working; the second press turns
 /// it off again - cancelling whatever's in progress (a pound, a mantle, a slide, a charged high
@@ -21,7 +21,7 @@ internal static class MovesToggle
 
     internal static void Bind(ConfigFile config)
     {
-        key = config.Bind("Moves Toggle", "ToggleAbsurdMovesKey", KeyCode.End,
+        key = config.Bind("Moves Toggle", "ToggleAbsurdMovesKey", KeyCode.Home,
             "Switches every Absurd Move on or off, all at once. Off: the dodge, bullet time, fire mid-air/while " +
             "running, ground pound, mantle, double jump, slide and high jump all do nothing, and whichever of " +
             "them is in progress is cancelled right away. Off at the start of every level.");
